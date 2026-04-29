@@ -60,6 +60,7 @@ body {
 }
 #bg-img-el:active { cursor:grabbing; }
 #bg-img-el.dragging { cursor:grabbing; }
+#bg-img-el.has-shadow { filter: drop-shadow(0 4px 18px rgba(0,0,0,0.55)) drop-shadow(0 1px 4px rgba(0,0,0,0.35)); }
 
 /* ═══ GUIDELINE ═══ */
 #guideline-45 {
@@ -351,6 +352,7 @@ input[type="file"]   { display:none; }
 .bg-img-action-btn:hover { border-color:#777; color:#eee; }
 .bg-img-action-btn.danger { border-color:#4a1a1a; color:#c05050; }
 .bg-img-action-btn.danger:hover { border-color:#c05050; color:#ff7070; }
+.bg-img-action-btn.active-toggle { border-color:#888; color:#ccc; background:#1c1c1c; }
 
 /* ═══ PER-LINE EDITOR ═══ */
 #line-editor-list { display:flex; flex-direction:column; gap:7px; padding-right:2px; }
@@ -726,6 +728,9 @@ input[type="file"]   { display:none; }
             <button class="bg-img-action-btn" onclick="fitBgImg()">⤢ Fit to Card</button>
             <button class="bg-img-action-btn" onclick="fillBgImg()">⬛ Fill Card</button>
             <button class="bg-img-action-btn danger" onclick="removeBgImg()">✕ Remove</button>
+          </div>
+          <div class="bg-img-btn-row" style="margin-top:2px;">
+            <button class="bg-img-action-btn active-toggle" id="bg-img-shadow-btn" onclick="toggleBgImgShadow(this)">🌑 Shadow: ON</button>
           </div>
         </div>
 
@@ -1190,6 +1195,12 @@ function initDrag() {
 function initWordZoom() {
   const bar = document.getElementById('word-zoom-bar');
 
+  // Stop ALL events inside zoom bar from bubbling to the card click listener
+  // This is what prevents +/−/color/font/reset from triggering dismissWordZoom()
+  bar.addEventListener('click',       e => e.stopPropagation());
+  bar.addEventListener('pointerdown', e => e.stopPropagation());
+  bar.addEventListener('mousedown',   e => e.stopPropagation());
+
   // click on card to select word or dismiss
   document.getElementById('card').addEventListener('click', e => {
     const ws = e.target.closest('.word-span');
@@ -1411,6 +1422,7 @@ function loadBgImage(input) {
     // Default: fit to card
     fitBgImg();
 
+    imgEl.classList.add('has-shadow'); // soft shadow on by default
     document.getElementById('bg-img-controls').classList.add('visible');
     imgEl.style.display = 'block';
   };
@@ -1481,16 +1493,26 @@ function fillBgImg() {
   applyBgImgTransform();
 }
 
+function toggleBgImgShadow(btn) {
+  const imgEl = document.getElementById('bg-img-el');
+  const hasShadow = imgEl.classList.toggle('has-shadow');
+  btn.textContent = hasShadow ? '🌑 Shadow: ON' : '🌑 Shadow: OFF';
+  btn.classList.toggle('active-toggle', hasShadow);
+}
+
 function removeBgImg() {
   const imgEl = document.getElementById('bg-img-el');
   imgEl.style.display = 'none';
   imgEl.src = '';
+  imgEl.classList.remove('has-shadow');
   bgImgLoaded = false;
   document.getElementById('bg-img-controls').classList.remove('visible');
   document.getElementById('bg-img-scale-range').value = 100;
   document.getElementById('bg-img-scale-val').textContent = 100;
   document.getElementById('bg-opacity-range').value = 100;
   document.getElementById('bg-opacity-val').textContent = 100;
+  const shadowBtn = document.getElementById('bg-img-shadow-btn');
+  if (shadowBtn) { shadowBtn.textContent = '🌑 Shadow: ON'; shadowBtn.classList.add('active-toggle'); }
 }
 
 /* ══════════════════════════════════════════
