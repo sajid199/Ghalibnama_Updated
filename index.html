@@ -152,8 +152,8 @@ body {
 }
 #shayari-text {
   font-family:'Hind',sans-serif; font-weight:700;
-  font-size:23px; line-height:2.05; color:#111;
-  text-align:center; width:100%;
+  font-size:17px; line-height:1.3; color:#111;
+  text-align:left; width:100%;
   pointer-events:auto;
 }
 #shayari-text .line-span { display:block; text-align:inherit; }
@@ -637,14 +637,11 @@ input[type="file"]   { display:none; }
           <div class="font-card" data-font="'Anton', sans-serif"><div class="fp" style="font-family:'Anton',sans-serif;">HINDI AA</div><div class="fn">Anton</div></div>
         </div>
 
-        <label style="margin-top:14px;">Font Size — <span class="val" id="font-size-val">23</span>px</label>
-        <input type="range" min="12" max="60" value="23" id="font-size-range" oninput="setFontSize(this.value)">
+        <label style="margin-top:14px;">Font Size — <span class="val" id="font-size-val">17</span>px</label>
+        <input type="range" min="12" max="60" value="17" id="font-size-range" oninput="setFontSize(this.value)">
 
-        <label>Line Height — <span class="val" id="line-height-val">2.05</span></label>
-        <input type="range" min="1.0" max="3.0" step="0.05" value="2.05" id="line-height-range" oninput="setLineHeight(this.value)">
-
-        <label>Letter Spacing — <span class="val" id="letter-spacing-val">0</span>px</label>
-        <input type="range" min="-2" max="8" step="0.5" value="0" id="letter-spacing-range" oninput="setLetterSpacing(this.value)">
+        <label>Line Height — <span class="val" id="line-height-val">1.3</span></label>
+        <input type="range" min="1.0" max="3.0" step="0.05" value="1.3" id="line-height-range" oninput="setLineHeight(this.value)">
 
         <label>Font Weight</label>
         <div class="align-row" id="weight-row">
@@ -656,8 +653,8 @@ input[type="file"]   { display:none; }
 
         <label>Text Alignment</label>
         <div class="align-row" id="align-row">
-          <button class="align-btn" onclick="setAlign('left',this)">Left</button>
-          <button class="align-btn active" onclick="setAlign('center',this)">Centre</button>
+          <button class="align-btn active" onclick="setAlign('left',this)">Left</button>
+          <button class="align-btn" onclick="setAlign('center',this)">Centre</button>
           <button class="align-btn" onclick="setAlign('right',this)">Right</button>
         </div>
 
@@ -1381,10 +1378,6 @@ function setFontSize(v) {
 function setLineHeight(v) {
   document.getElementById('line-height-val').textContent = v;
   document.getElementById('shayari-text').style.lineHeight = v;
-}
-function setLetterSpacing(v) {
-  document.getElementById('letter-spacing-val').textContent = v;
-  document.getElementById('shayari-text').style.letterSpacing = v + 'px';
 }
 function setWeight(w, btn) {
   document.querySelectorAll('#weight-row .align-btn').forEach(b => b.classList.remove('active'));
