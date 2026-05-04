@@ -7,1067 +7,939 @@
 <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;600;700&family=Rozha+One&family=Noto+Serif+Devanagari:wght@400;700&family=Baloo+2:wght@700;800&family=Martel:wght@700;900&family=Yatra+One&family=Mukta:wght@700&family=Eczar:wght@700&family=Tiro+Devanagari+Hindi:ital@0;1&family=Poppins:wght@700&family=Playfair+Display:wght@700;900&family=Lora:wght@700&family=Abril+Fatface&family=Cinzel:wght@700;900&family=Josefin+Sans:wght@700&family=Dancing+Script:wght@700&family=Pacifico&family=Satisfy&family=Great+Vibes&family=Caveat:wght@700&family=Amatic+SC:wght@700&family=Raleway:wght@700;900&family=Oswald:wght@700&family=Bebas+Neue&family=Anton&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
+* { margin:0; padding:0; box-sizing:border-box; }
 
-:root {
-  --accent:#c084fc;
-  --accent2:#f472b6;
-  --bg-app:#0d0d0f;
-  --panel:#161618;
-  --border:#232328;
-  --text:#e2e2e8;
-  --muted:#5a5a6a;
+body {
+  font-family:'Hind',sans-serif;
+  background:#141414;
+  color:#fff;
+  min-height:100vh;
+  padding:16px;
 }
 
-body{font-family:'Hind',sans-serif;background:var(--bg-app);color:var(--text);min-height:100vh;padding:16px;}
-
-.app-layout{display:flex;flex-direction:column;align-items:center;gap:20px;width:100%;max-width:520px;margin:0 auto;}
-
-@media(min-width:960px){
-  body{padding:24px;}
-  .app-layout{flex-direction:row;align-items:flex-start;max-width:1160px;gap:32px;}
-  .card-wrap{position:sticky!important;top:24px!important;}
-  .controls{max-height:calc(100vh - 48px)!important;overflow-y:auto!important;flex:1!important;}
-  .controls::-webkit-scrollbar{width:3px;}
-  .controls::-webkit-scrollbar-track{background:transparent;}
-  .controls::-webkit-scrollbar-thumb{background:#2a2a2a;border-radius:4px;}
+.app-layout {
+  display:flex; flex-direction:column; align-items:center;
+  gap:20px; width:100%; max-width:500px; margin:0 auto;
+}
+@media (min-width:900px) {
+  body { padding:24px; }
+  .app-layout { flex-direction:row; align-items:flex-start; max-width:1100px; gap:28px; }
+  .card-wrap  { position:sticky!important; top:24px!important; }
+  .controls   { max-height:calc(100vh - 48px)!important; overflow-y:auto!important; flex:1!important; }
+  .controls::-webkit-scrollbar { width:3px; }
+  .controls::-webkit-scrollbar-track { background:transparent; }
+  .controls::-webkit-scrollbar-thumb { background:#2a2a2a; border-radius:4px; }
 }
 
-/* ═══ APP HEADER ═══ */
-.app-header{
-  width:100%;max-width:520px;
-  display:flex;align-items:center;gap:12px;
-  padding:10px 0 4px;
-}
-.app-header-logo{
-  width:38px;height:38px;border-radius:10px;
-  background:linear-gradient(135deg,#c084fc,#f472b6);
-  display:flex;align-items:center;justify-content:center;
-  font-size:18px;flex-shrink:0;
-  box-shadow:0 4px 14px rgba(192,132,252,.35);
-}
-.app-header-text h1{font-size:15px;font-weight:800;letter-spacing:.5px;color:#fff;}
-.app-header-text p{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
-
-/* ═══ CARD WRAP ═══ */
-.card-wrap{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;}
-.card-outer{width:100%;display:flex;flex-direction:column;align-items:center;gap:10px;}
-
-/* ═══ SIZE SELECTOR ═══ */
-.size-selector{width:100%;max-width:440px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;}
-.size-btn{
-  flex:1;min-width:100px;
-  background:var(--panel);border:2px solid var(--border);border-radius:12px;
-  color:var(--muted);font-family:'Hind',sans-serif;font-size:11px;font-weight:700;
-  padding:8px 6px 6px;cursor:pointer;text-align:center;
-  transition:border-color .2s,color .2s,background .2s;line-height:1.4;
-}
-.size-btn:hover{border-color:#555;color:#ccc;}
-.size-btn.active{border-color:var(--accent);background:#1a1024;color:#d8b4fe;}
-.size-btn .sb-ratio{font-size:15px;display:block;margin-bottom:2px;}
-.size-btn .sb-label{font-size:9px;color:inherit;opacity:.7;letter-spacing:.5px;text-transform:uppercase;}
-
-/* ═══ GUIDELINE TOGGLE ═══ */
-.guideline-toggle-wrap{
-  display:flex;align-items:center;gap:10px;background:var(--panel);
-  border:1px solid var(--border);border-radius:10px;padding:8px 14px;
-  width:100%;max-width:440px;cursor:pointer;transition:border-color .2s;user-select:none;
-}
-.guideline-toggle-wrap:hover{border-color:#555;}
-.guideline-toggle-wrap.active{border-color:#f97316;background:#1a1108;}
-.guideline-toggle-switch{
-  width:36px;height:20px;border-radius:10px;background:#333;
-  position:relative;flex-shrink:0;transition:background .2s;
-}
-.guideline-toggle-switch::after{
-  content:'';position:absolute;width:14px;height:14px;border-radius:50%;
-  background:#fff;top:3px;left:3px;transition:left .2s;
-}
-.guideline-toggle-wrap.active .guideline-toggle-switch{background:#f97316;}
-.guideline-toggle-wrap.active .guideline-toggle-switch::after{left:19px;}
-.guideline-toggle-label{font-size:12px;font-weight:700;color:var(--muted);flex:1;}
-.guideline-toggle-wrap.active .guideline-toggle-label{color:#fb923c;}
-.guideline-toggle-hint{font-size:10px;color:#383844;line-height:1.4;}
+.card-wrap  { flex-shrink:0; display:flex; flex-direction:column; align-items:center; gap:12px; width:100%; }
+.card-outer { width:100%; display:flex; flex-direction:column; align-items:center; gap:12px; }
 
 /* ═══ CARD ═══ */
-#card{
-  position:relative;overflow:hidden;border-radius:20px;
-  box-shadow:0 28px 72px rgba(0,0,0,.75),0 0 0 1px rgba(255,255,255,.05);
-  background:#1a1a1a;user-select:none;
+#card {
+  position:relative; overflow:hidden; border-radius:18px;
+  box-shadow:0 24px 64px rgba(0,0,0,.7);
+  background:#d9d9d9; user-select:none;
   transition:width .3s,height .3s;
 }
+#bg-layer       { position:absolute;inset:0;background:linear-gradient(160deg,#d2d2d2,#e2e2e2,#cacaca);transition:background .3s;z-index:0; }
+#overlay-layer  { position:absolute;inset:0;background:rgba(255,255,255,0);z-index:3; pointer-events:none; }
 
-#bg-layer{position:absolute;inset:0;background:linear-gradient(160deg,#1a1a2e,#16213e,#0f3460);z-index:0;transition:background .3s;}
-#bg-image-layer{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity .3s;z-index:1;}
-#overlay-layer{position:absolute;inset:0;background:rgba(0,0,0,0);z-index:2;}
+/* ═══ DRAGGABLE BG IMAGE ═══ */
+#bg-img-el {
+  position:absolute;
+  top:0; left:0;
+  width:auto; height:auto;
+  min-width:60px; min-height:60px;
+  z-index:2;
+  cursor:grab;
+  touch-action:none;
+  display:none;
+  user-select:none;
+  -webkit-user-drag:none;
+  transform-origin:top left;
+}
+#bg-img-el:active { cursor:grabbing; }
+#bg-img-el.dragging { cursor:grabbing; }
 
-/* ═══ VIRTUAL GUIDELINES — improved ═══ */
-/* Main safe-zone box */
-.guideline-box{
-  position:absolute;pointer-events:none;z-index:100;
-  border-radius:8px;
-  transition:opacity .3s;
+/* ═══ BG IMAGE SHADOW OVERLAY — all-edges premium vignette ═══ */
+#bg-img-shadow-overlay {
+  position:absolute;
+  inset:0;
+  z-index:3;
+  pointer-events:none;
+  display:none;
+  /* Multi-stop radial vignette from all edges inward */
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%,   rgba(0,0,0,0.55) 0%, transparent 70%),
+    radial-gradient(ellipse 80% 50% at 50% 100%, rgba(0,0,0,0.55) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 80% at 0%   50%, rgba(0,0,0,0.45) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 80% at 100% 50%, rgba(0,0,0,0.45) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 60% at 0%   0%,  rgba(0,0,0,0.40) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 60% at 100% 0%,  rgba(0,0,0,0.40) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 60% at 0%   100%,rgba(0,0,0,0.40) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 60% at 100% 100%,rgba(0,0,0,0.40) 0%, transparent 65%);
 }
+#bg-img-shadow-overlay.visible { display:block; }
 
-/* Center cross lines */
-#guide-h-line{
-  position:absolute;left:0;right:0;
-  height:1px;background:rgba(251,146,60,.5);
-  z-index:101;pointer-events:none;
-  box-shadow:0 0 6px rgba(251,146,60,.3);
-  transform:translateY(-50%);
+/* ═══ GUIDELINE ═══ */
+#guideline-45 {
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  border:2px dashed rgba(255,80,80,.75); border-radius:6px;
+  z-index:100; pointer-events:none; display:none;
+  box-shadow:0 0 0 9999px rgba(0,0,0,.18);
 }
-#guide-v-line{
-  position:absolute;top:0;bottom:0;
-  width:1px;background:rgba(251,146,60,.5);
-  z-index:101;pointer-events:none;
-  box-shadow:0 0 6px rgba(251,146,60,.3);
-  transform:translateX(-50%);
+#guideline-45::before {
+  content:'4:5 Safe Zone'; position:absolute; top:-20px; left:50%; transform:translateX(-50%);
+  font-size:9px; font-family:'Hind',sans-serif; font-weight:700;
+  color:rgba(255,80,80,.9); letter-spacing:1px; text-transform:uppercase;
+  white-space:nowrap; background:rgba(0,0,0,.45); padding:2px 6px; border-radius:4px;
 }
-
-/* Rule-of-thirds grid */
-#guide-third-h1,#guide-third-h2{
-  position:absolute;left:0;right:0;height:1px;
-  background:rgba(251,146,60,.2);z-index:101;pointer-events:none;
+#guideline-toggle-wrap {
+  display:flex; align-items:center; gap:10px; background:#1a1a1a;
+  border:1px solid #2e2e2e; border-radius:10px; padding:8px 14px;
+  width:100%; max-width:420px; cursor:pointer; transition:border-color .2s; user-select:none;
 }
-#guide-third-v1,#guide-third-v2{
-  position:absolute;top:0;bottom:0;width:1px;
-  background:rgba(251,146,60,.2);z-index:101;pointer-events:none;
+#guideline-toggle-wrap:hover { border-color:#555; }
+#guideline-toggle-wrap.active { border-color:#ff5050; background:#1e1414; }
+#guideline-toggle-switch {
+  width:36px; height:20px; border-radius:10px; background:#333;
+  position:relative; flex-shrink:0; transition:background .2s;
 }
-
-/* Corner accents */
-.guide-corner{position:absolute;width:20px;height:20px;z-index:102;pointer-events:none;}
-.guide-corner::before,.guide-corner::after{
-  content:'';position:absolute;background:#f97316;
+#guideline-toggle-switch::after {
+  content:''; position:absolute; width:14px; height:14px; border-radius:50%;
+  background:#fff; top:3px; left:3px; transition:left .2s;
 }
-.guide-corner::before{width:2px;height:16px;}
-.guide-corner::after{width:16px;height:2px;}
-.guide-corner.tl{top:16px;left:16px;}
-.guide-corner.tl::before{top:0;left:0;}
-.guide-corner.tl::after{top:0;left:0;}
-.guide-corner.tr{top:16px;right:16px;}
-.guide-corner.tr::before{top:0;right:0;}
-.guide-corner.tr::after{top:0;right:0;}
-.guide-corner.bl{bottom:16px;left:16px;}
-.guide-corner.bl::before{bottom:0;left:0;}
-.guide-corner.bl::after{bottom:0;left:0;}
-.guide-corner.br{bottom:16px;right:16px;}
-.guide-corner.br::before{bottom:0;right:0;}
-.guide-corner.br::after{bottom:0;right:0;}
-
-/* Guide label */
-.guide-label{
-  position:absolute;top:8px;left:50%;transform:translateX(-50%);
-  font-size:9px;font-family:'Hind',sans-serif;font-weight:700;
-  color:rgba(251,146,60,.9);letter-spacing:1.5px;text-transform:uppercase;
-  background:rgba(0,0,0,.55);padding:2px 8px;border-radius:4px;
-  white-space:nowrap;z-index:103;pointer-events:none;
-  backdrop-filter:blur(4px);
-}
-
-.guides-hidden .guide-corner,
-.guides-hidden #guide-h-line,
-.guides-hidden #guide-v-line,
-.guides-hidden #guide-third-h1,
-.guides-hidden #guide-third-h2,
-.guides-hidden #guide-third-v1,
-.guides-hidden #guide-third-v2,
-.guides-hidden .guide-label{display:none;}
+#guideline-toggle-wrap.active #guideline-toggle-switch { background:#ff5050; }
+#guideline-toggle-wrap.active #guideline-toggle-switch::after { left:19px; }
+#guideline-toggle-label { font-size:12px; font-weight:700; color:#777; flex:1; }
+#guideline-toggle-wrap.active #guideline-toggle-label { color:#ff8080; }
+#guideline-toggle-hint { font-size:10px; color:#444; line-height:1.4; }
 
 /* ═══ PROFILE CHIP ═══ */
-#profile-chip{
-  position:absolute;top:20px;left:20px;
-  display:flex;align-items:center;gap:10px;
-  z-index:20;cursor:grab;touch-action:none;
+#profile-chip {
+  position:absolute; top:22px; left:22px;
+  display:flex; align-items:center; gap:10px;
+  z-index:20; cursor:grab; touch-action:none;
 }
-#profile-chip:active{cursor:grabbing;}
-
-#avatar-wrap{position:relative;width:46px;height:46px;flex-shrink:0;}
-#avatar-ring-outer{
-  position:absolute;inset:-3px;border-radius:50%;
-  background:linear-gradient(135deg,#c084fc,#f472b6,#fb923c);z-index:0;
+#profile-chip:active { cursor:grabbing; }
+#avatar-wrap { position:relative; width:46px; height:46px; flex-shrink:0; }
+#avatar-ring-outer { position:absolute; inset:-3.5px; border-radius:50%; background:rgba(29,155,240,.7); z-index:0; }
+#avatar-ring-inner { position:absolute; inset:-1.5px; border-radius:50%; background:rgba(255,255,255,.92); z-index:1; }
+#avatar-img-wrap {
+  position:relative; width:46px; height:46px; border-radius:50%; overflow:hidden;
+  background:linear-gradient(135deg,#c9184a,#ff6b9d);
+  display:flex; align-items:center; justify-content:center;
+  font-size:20px; color:#fff; z-index:2;
 }
-#avatar-ring-inner{position:absolute;inset:-1px;border-radius:50%;background:rgba(255,255,255,.9);z-index:1;}
-#avatar-img-wrap{
-  position:relative;width:46px;height:46px;border-radius:50%;overflow:hidden;
-  background:linear-gradient(135deg,#c084fc,#f472b6);
-  display:flex;align-items:center;justify-content:center;
-  font-size:20px;color:#fff;z-index:2;
+#avatar-img-wrap img { width:100%; height:100%; object-fit:cover; }
+#verified-badge {
+  position:absolute; bottom:-2px; right:-4px; width:18px; height:18px; z-index:25;
+  filter:drop-shadow(0 1px 3px rgba(0,0,0,.3)); display:block; pointer-events:none;
 }
-#avatar-img-wrap img{width:100%;height:100%;object-fit:cover;}
-#verified-badge{
-  position:absolute;bottom:-2px;right:-4px;width:18px;height:18px;z-index:25;
-  filter:drop-shadow(0 1px 3px rgba(0,0,0,.3));pointer-events:none;
+#profile-name-display {
+  font-family:'Hind',sans-serif; font-weight:700; font-style:italic;
+  font-size:14px; color:#111; line-height:1.3; white-space:nowrap;
 }
-
-.chip-text-name{font-family:'Hind',sans-serif;font-weight:700;font-style:italic;font-size:14px;color:#fff;line-height:1.3;white-space:nowrap;text-shadow:0 1px 4px rgba(0,0,0,.5);}
-.chip-text-handle{font-family:'Hind',sans-serif;font-weight:400;font-size:12px;color:rgba(255,255,255,.7);line-height:1.3;white-space:nowrap;}
-
-/* ═══ SHAYARI BLOCK — centered by default for IG/FB ═══ */
-#shayari-display{
-  position:absolute;
-  /* Default: centered in card */
-  top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  z-index:9;touch-action:none;
-  width:88%;
-}
-#shayari-display.manually-positioned{
-  transform:none;
+#profile-handle-display {
+  font-family:'Hind',sans-serif; font-weight:400;
+  font-size:12px; color:#555; line-height:1.3; white-space:nowrap;
 }
 
-#shayari-text{
-  font-family:'Hind',sans-serif;font-weight:700;
-  font-size:23px;line-height:2.05;color:#fff;
-  text-align:center;width:100%;
+/* ═══ SHAYARI TEXT ═══ */
+#shayari-display {
+  position:absolute; top:100px; left:36px; right:36px;
+  z-index:9; touch-action:none;
+}
+#shayari-text {
+  font-family:'Hind',sans-serif; font-weight:700;
+  font-size:23px; line-height:2.05; color:#111;
+  text-align:center; width:100%;
   pointer-events:auto;
 }
-#shayari-text .line-span{display:block;text-align:inherit;}
-#shayari-text .word-span{
-  display:inline;border-radius:2px;cursor:pointer;
+#shayari-text .line-span { display:block; text-align:inherit; }
+#shayari-text .word-span {
+  display:inline; border-radius:2px;
+  cursor:pointer;
   transition:background .1s;
 }
-#shayari-text .word-span:hover{background:rgba(192,132,252,.15);border-radius:2px;}
-#shayari-text .word-span.selected-word{
-  outline:2px solid rgba(192,132,252,.85);
-  background:rgba(192,132,252,.18);border-radius:3px;
+#shayari-text .word-span:hover { background:rgba(100,180,255,.10); border-radius:2px; }
+#shayari-text .word-span.selected-word {
+  outline:2px solid rgba(100,180,255,.85);
+  background:rgba(100,180,255,.18); border-radius:3px;
 }
-#shayari-display.dragging{cursor:grabbing;}
+#shayari-display.dragging { cursor:grabbing; }
 
-.line-separator{
-  display:block;width:60%;margin:0 auto;
-  border:none;height:var(--sep-thickness,1px);
-  background:var(--sep-color,currentColor);
-  opacity:var(--sep-opacity,0.35);
-  pointer-events:none;
+.line-separator {
+  display: block;
+  width: 60%;
+  margin: 0 auto;
+  border: none;
+  height: var(--sep-thickness, 1px);
+  background: var(--sep-color, currentColor);
+  opacity: var(--sep-opacity, 0.35);
+  pointer-events: none;
+}
+
+#text-drag-hint {
+  position:absolute; bottom:-18px; left:50%; transform:translateX(-50%);
+  font-size:9px; color:rgba(0,0,0,.25);
+  pointer-events:none; white-space:nowrap; letter-spacing:.5px;
 }
 
 /* ═══ WORD ZOOM BAR ═══ */
-#word-zoom-bar{
-  position:absolute;z-index:500;
-  display:none;flex-direction:column;align-items:stretch;gap:0;
-  background:rgba(8,8,14,.97);border:1px solid #444;border-radius:14px;
-  padding:9px 11px;white-space:nowrap;min-width:240px;
+#word-zoom-bar {
+  position:absolute; z-index:500;
+  display:none; flex-direction:column; align-items:stretch; gap:0;
+  background:rgba(8,8,8,.97); border:1px solid #555; border-radius:14px;
+  padding:9px 11px; white-space:nowrap; min-width:240px;
   box-shadow:0 8px 28px rgba(0,0,0,.75);
   transform:translateX(-50%);
-  backdrop-filter:blur(12px);
+  /* Prevent pointer events from leaking to card */
+  pointer-events:auto;
 }
-#word-zoom-bar .wz-row1{display:flex;align-items:center;gap:5px;margin-bottom:8px;}
-#word-zoom-bar .wz-row2{display:flex;align-items:center;}
-#word-zoom-bar .wz-btn{
-  background:#2a2a3a;border:1px solid #555;color:#fff;
-  border-radius:50%;width:26px;height:26px;font-size:17px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  transition:background .15s;flex-shrink:0;line-height:1;
+#word-zoom-bar .wz-row1 { display:flex; align-items:center; gap:5px; margin-bottom:8px; }
+#word-zoom-bar .wz-row2 { display:flex; align-items:center; }
+#word-zoom-bar .wz-btn {
+  background:#2a2a2a; border:1px solid #666; color:#fff;
+  border-radius:50%; width:26px; height:26px; font-size:17px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:background .15s; flex-shrink:0; line-height:1;
+  /* Make sure these don't bubble up */
+  user-select:none;
 }
-#word-zoom-bar .wz-btn:hover{background:#444;}
-#word-zoom-bar .wz-size{font-size:12px;color:#ccc;min-width:38px;text-align:center;}
-#word-zoom-bar .wz-divider{width:1px;height:18px;background:#333;margin:0 4px;flex-shrink:0;}
-#word-zoom-bar .wz-color-wrap{
-  position:relative;width:26px;height:26px;border-radius:50%;
-  border:2px solid #666;overflow:hidden;cursor:pointer;flex-shrink:0;margin-left:4px;
+#word-zoom-bar .wz-btn:hover { background:#444; }
+#word-zoom-bar .wz-size { font-size:12px; color:#ccc; min-width:38px; text-align:center; }
+#word-zoom-bar .wz-divider { width:1px; height:18px; background:#333; margin:0 4px; flex-shrink:0; }
+#word-zoom-bar .wz-color-wrap {
+  position:relative; width:26px; height:26px; border-radius:50%;
+  border:2px solid #666; overflow:hidden; cursor:pointer; flex-shrink:0; margin-left:4px;
 }
-#word-zoom-bar .wz-color-swatch{position:absolute;inset:0;border-radius:50%;background:#fff;pointer-events:none;}
-#word-zoom-bar .wz-color-wrap input[type="color"]{
-  position:absolute;inset:-4px;width:calc(100% + 8px);height:calc(100% + 8px);
-  opacity:0;cursor:pointer;border:none;padding:0;
+#word-zoom-bar .wz-color-swatch { position:absolute; inset:0; border-radius:50%; background:#111; pointer-events:none; }
+#word-zoom-bar .wz-color-wrap input[type="color"] {
+  position:absolute; inset:-4px; width:calc(100% + 8px); height:calc(100% + 8px);
+  opacity:0; cursor:pointer; border:none; padding:0;
 }
-#word-zoom-bar .wz-reset{
-  font-size:10px;color:#777;cursor:pointer;padding:0 8px;
-  background:none;border:none;border-left:1px solid #333;margin-left:auto;
-  font-family:'Hind',sans-serif;transition:color .15s;
+#word-zoom-bar .wz-reset {
+  font-size:10px; color:#777; cursor:pointer; padding:0 8px;
+  background:none; border:none; border-left:1px solid #333; margin-left:auto;
+  font-family:'Hind',sans-serif; transition:color .15s;
 }
-#word-zoom-bar .wz-reset:hover{color:#eee;}
-#wz-font-label{font-size:10px;color:#555;margin-right:6px;white-space:nowrap;flex-shrink:0;}
-#wz-font-select{
-  flex:1;background:#1c1c2c;border:1px solid #555;border-radius:8px;
-  color:#ddd;font-size:11px;padding:5px 22px 5px 8px;cursor:pointer;outline:none;
-  font-family:'Hind',sans-serif;appearance:none;-webkit-appearance:none;
+#word-zoom-bar .wz-reset:hover { color:#eee; }
+#wz-font-label { font-size:10px; color:#555; margin-right:6px; white-space:nowrap; flex-shrink:0; }
+#wz-font-select {
+  flex:1; background:#1c1c1c; border:1px solid #555; border-radius:8px;
+  color:#ddd; font-size:11px; padding:5px 22px 5px 8px; cursor:pointer; outline:none;
+  font-family:'Hind',sans-serif; appearance:none; -webkit-appearance:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 7px center;
+  background-repeat:no-repeat; background-position:right 7px center;
 }
+#wz-font-select:focus { border-color:#aaa; }
 
 /* ═══ WATERMARK ═══ */
-#watermark{
-  position:absolute;bottom:18px;left:0;right:0;
-  text-align:center;font-family:'Hind',sans-serif;
-  font-size:11px;color:rgba(255,255,255,.28);
-  letter-spacing:2px;z-index:10;pointer-events:none;text-transform:uppercase;
+#watermark {
+  position:absolute; bottom:20px; left:0; right:0;
+  text-align:center; font-family:'Hind',sans-serif;
+  font-size:11px; color:rgba(0,0,0,.28);
+  letter-spacing:1px; z-index:10; pointer-events:none;
 }
+
+/* ═══ SIZE SELECTOR ═══ */
+.size-selector { width:100%; max-width:420px; display:flex; gap:6px; flex-wrap:wrap; justify-content:center; }
+.size-btn {
+  flex:1; min-width:90px; background:#1a1a1a; border:2px solid #2a2a2a; border-radius:10px;
+  color:#777; font-family:'Hind',sans-serif; font-size:11px; font-weight:700;
+  padding:8px 6px 6px; cursor:pointer; text-align:center;
+  transition:border-color .2s,color .2s,background .2s; line-height:1.4;
+}
+.size-btn:hover { border-color:#555; color:#ccc; }
+.size-btn.active { border-color:#bbb; background:#1c1c1c; color:#fff; }
+.size-btn .sb-ratio { font-size:14px; display:block; margin-bottom:2px; }
+.size-btn .sb-label { font-size:9px; color:inherit; opacity:.7; letter-spacing:.5px; text-transform:uppercase; }
 
 /* ═══ DOWNLOAD BTN ═══ */
-#download-btn-card{
-  width:100%;max-width:440px;
-  background:linear-gradient(135deg,#7c3aed,#c026d3);
-  border:none;border-radius:12px;color:#fff;
-  font-size:13px;font-weight:700;padding:13px;cursor:pointer;
-  letter-spacing:.5px;transition:opacity .2s,transform .15s,box-shadow .2s;
+#download-btn-card {
+  width:100%; max-width:420px;
+  background:linear-gradient(135deg,#1a1a1a,#333);
+  border:1px solid #444; border-radius:12px; color:#fff;
+  font-size:13px; font-weight:700; padding:13px; cursor:pointer;
+  letter-spacing:.5px; transition:opacity .2s,transform .15s;
   font-family:'Hind',sans-serif;
-  box-shadow:0 4px 20px rgba(124,58,237,.4);
 }
-#download-btn-card:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 6px 28px rgba(124,58,237,.55);}
-#download-btn-card:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+#download-btn-card:hover { opacity:.85; transform:translateY(-1px); }
+#download-btn-card:disabled { opacity:.5; cursor:not-allowed; transform:none; }
 
 /* ═══ CONTROLS ═══ */
-.controls{width:100%;display:flex;flex-direction:column;gap:12px;overflow-y:visible;padding-bottom:28px;}
+.controls { width:100%; display:flex; flex-direction:column; gap:14px; overflow-y:visible; padding-bottom:28px; }
 
-/* ═══ PANEL ═══ */
-.panel{background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
-.panel-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:14px 16px;cursor:pointer;transition:background .2s;user-select:none;
+/* ═══ COLLAPSIBLE PANEL ═══ */
+.panel { background:#1a1a1a; border:1px solid #262626; border-radius:14px; overflow:hidden; }
+.panel-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 16px; cursor:pointer; transition:background .2s; user-select:none;
 }
-.panel-header:hover{background:#1c1c20;}
-.panel-header-left{display:flex;align-items:center;gap:9px;}
-.panel-header-icon{font-size:14px;}
-.panel-title{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#aaa;}
-.panel-chevron{font-size:10px;color:var(--muted);transition:transform .25s,color .2s;flex-shrink:0;}
-.panel.open .panel-chevron{transform:rotate(180deg);color:#888;}
-.panel-body{padding:0 16px 16px;display:none;animation:fadeIn .18s ease;}
-.panel.open .panel-body{display:block;}
-@keyframes fadeIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
+.panel-header:hover { background:#1f1f1f; }
+.panel-header-left { display:flex; align-items:center; gap:9px; }
+.panel-header-icon { font-size:14px; }
+.panel-title { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#bbb; }
+.panel-chevron { font-size:10px; color:#444; transition:transform .25s,color .2s; flex-shrink:0; }
+.panel.open .panel-chevron { transform:rotate(180deg); color:#888; }
+.panel-body { padding:0 16px 16px; display:none; animation:fadeIn .18s ease; }
+.panel.open .panel-body { display:block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);} }
 
-.panel-download{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:16px;}
-.panel-download-title{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#aaa;margin-bottom:12px;display:block;}
-#download-btn-panel{
-  width:100%;background:linear-gradient(135deg,#7c3aed,#c026d3);
-  border:none;border-radius:10px;color:#fff;
-  font-size:13px;font-weight:700;padding:13px;cursor:pointer;
-  letter-spacing:.5px;transition:opacity .2s,transform .15s;
-  font-family:'Hind',sans-serif;margin-top:10px;display:block;
-  box-shadow:0 4px 16px rgba(124,58,237,.35);
+.panel-download { background:#1a1a1a; border:1px solid #262626; border-radius:14px; padding:16px; }
+.panel-download-title { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#bbb; margin-bottom:12px; display:block; }
+#download-btn-panel {
+  width:100%; background:linear-gradient(135deg,#1e1e1e,#3a3a3a);
+  border:1px solid #555; border-radius:10px; color:#fff;
+  font-size:13px; font-weight:700; padding:13px; cursor:pointer;
+  letter-spacing:.5px; transition:opacity .2s,transform .15s;
+  font-family:'Hind',sans-serif; margin-top:10px; display:block;
 }
-#download-btn-panel:hover{opacity:.9;transform:translateY(-1px);}
+#download-btn-panel:hover { opacity:.85; transform:translateY(-1px); }
+#download-btn-panel:disabled { opacity:.5; cursor:not-allowed; transform:none; }
 
-label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px;margin-top:10px;}
-label:first-of-type{margin-top:0;}
+.panel-desc { font-size:11px; color:#555; line-height:1.6; margin-bottom:10px; }
 
-textarea{
-  width:100%;background:#0e0e12;border:1px solid var(--border);border-radius:10px;
-  color:#fff;font-size:15px;padding:11px;resize:vertical;min-height:120px;
-  font-family:'Hind',sans-serif;line-height:1.8;outline:none;transition:border .2s;
+label { display:block; font-size:11px; color:#777; margin-bottom:4px; margin-top:10px; }
+label:first-of-type { margin-top:0; }
+textarea {
+  width:100%; background:#0e0e0e; border:1px solid #2e2e2e; border-radius:8px;
+  color:#fff; font-size:15px; padding:11px; resize:vertical; min-height:120px;
+  font-family:'Hind',sans-serif; line-height:1.8; outline:none; transition:border .2s;
 }
-textarea:focus{border-color:#7c3aed;}
-
-input[type="range"]{width:100%;accent-color:var(--accent);cursor:pointer;}
-input[type="color"]{width:38px;height:30px;border:none;border-radius:6px;background:none;cursor:pointer;padding:0;}
-input[type="file"]{display:none;}
-
-.val{background:#222228;border-radius:4px;padding:2px 7px;font-size:11px;color:#bbb;min-width:36px;text-align:center;display:inline-block;}
-.color-row{display:flex;align-items:center;gap:10px;margin-top:4px;}
-.color-row span{font-size:11px;color:var(--muted);}
-
-.upload-btn{
-  display:block;background:#0e0e12;border:1px dashed #333;border-radius:8px;
-  color:var(--muted);font-size:12px;padding:8px;text-align:center;cursor:pointer;
-  transition:border .2s,color .2s;margin-top:7px;font-family:'Hind',sans-serif;
+textarea:focus { border-color:#888; }
+input[type="range"] { width:100%; accent-color:#ccc; cursor:pointer; }
+input[type="color"]  { width:38px; height:30px; border:none; border-radius:6px; background:none; cursor:pointer; padding:0; }
+input[type="file"]   { display:none; }
+.val { background:#222; border-radius:4px; padding:2px 7px; font-size:11px; color:#bbb; min-width:36px; text-align:center; display:inline-block; }
+.color-row { display:flex; align-items:center; gap:10px; margin-top:4px; }
+.color-row span { font-size:11px; color:#555; }
+.upload-btn {
+  display:block; background:#111; border:1px dashed #333; border-radius:8px;
+  color:#777; font-size:12px; padding:8px; text-align:center; cursor:pointer;
+  transition:border .2s,color .2s; margin-top:7px; font-family:'Hind',sans-serif;
 }
-.upload-btn:hover{border-color:var(--accent);color:#d8b4fe;}
+.upload-btn:hover { border-color:#bbb; color:#bbb; }
 
 /* ═══ FONT GRID ═══ */
-.font-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
-.font-card{
-  background:#111116;border:2px solid var(--border);border-radius:9px;
-  padding:8px 6px 6px;cursor:pointer;text-align:center;
+.font-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.font-card {
+  background:#111; border:2px solid #2a2a2a; border-radius:8px;
+  padding:8px 6px 6px; cursor:pointer; text-align:center;
   transition:border-color .2s,background .2s;
 }
-.font-card:hover{border-color:#555;background:#161620;}
-.font-card.active{border-color:var(--accent);background:#1a1028;}
-.font-card .fp{font-size:16px;color:#fff;line-height:1.5;margin-bottom:2px;}
-.font-card .fn{font-size:9px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;}
+.font-card:hover { border-color:#555; background:#161616; }
+.font-card.active { border-color:#bbb; background:#1c1c1c; }
+.font-card .fp { font-size:16px; color:#fff; line-height:1.5; margin-bottom:2px; }
+.font-card .fn { font-size:9px; color:#555; letter-spacing:.5px; text-transform:uppercase; }
 
-/* ═══ ALIGN/MISC BTNS ═══ */
-.align-row{display:flex;gap:7px;margin-top:4px;}
-.align-btn{
-  flex:1;background:#111116;border:2px solid var(--border);border-radius:8px;
-  color:var(--muted);font-size:12px;padding:7px 4px;cursor:pointer;
-  font-family:'Hind',sans-serif;transition:border-color .2s,color .2s,background .2s;text-align:center;
+/* ═══ ALIGN & MISC BTNS ═══ */
+.align-row { display:flex; gap:7px; margin-top:4px; }
+.align-btn {
+  flex:1; background:#111; border:2px solid #2a2a2a; border-radius:8px;
+  color:#777; font-size:12px; padding:7px 4px; cursor:pointer;
+  font-family:'Hind',sans-serif; transition:border-color .2s,color .2s,background .2s; text-align:center;
 }
-.align-btn:hover{border-color:#555;color:#ccc;}
-.align-btn.active{border-color:var(--accent);background:#1a1028;color:#d8b4fe;}
+.align-btn:hover { border-color:#555; color:#ccc; }
+.align-btn.active { border-color:#bbb; background:#1c1c1c; color:#fff; }
 
-/* ═══ VIRAL BG SWATCHES ═══ */
-.bg-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;}
-.bg-swatch{
-  width:44px;height:44px;border-radius:9px;cursor:pointer;
-  border:2px solid transparent;transition:border .2s,transform .15s;
-  position:relative;overflow:hidden;
+/* ═══ BG SWATCHES ═══ */
+.bg-list { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+.bg-swatch {
+  width:36px; height:36px; border-radius:7px; cursor:pointer;
+  border:2px solid transparent; transition:border .2s,transform .15s;
 }
-.bg-swatch:hover{transform:scale(1.1);}
-.bg-swatch.active{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.3);}
-.bg-swatch-label{
-  position:absolute;bottom:0;left:0;right:0;
-  font-size:7px;color:rgba(255,255,255,.8);text-align:center;
-  padding:2px 0;background:rgba(0,0,0,.45);
-  letter-spacing:.3px;
+.bg-swatch:hover { transform:scale(1.1); }
+.bg-swatch.active { border-color:#fff; }
+
+/* ═══ BG IMAGE CONTROLS ═══ */
+#bg-img-controls {
+  display:none; flex-direction:column; gap:8px; margin-top:10px;
+  background:#111; border:1px solid #222; border-radius:10px; padding:12px;
 }
+#bg-img-controls.visible { display:flex; }
+.bg-img-hint {
+  font-size:10px; color:#555; line-height:1.6;
+  background:#0e0e0e; border:1px solid #1e1e1e; border-radius:7px;
+  padding:8px 10px;
+}
+.bg-img-hint b { color:#777; }
+.bg-img-btn-row { display:flex; gap:6px; margin-top:4px; }
+.bg-img-action-btn {
+  flex:1; background:#1a1a1a; border:1px solid #333; border-radius:8px;
+  color:#888; font-size:11px; font-weight:700; padding:7px 4px;
+  cursor:pointer; text-align:center; font-family:'Hind',sans-serif;
+  transition:border-color .2s, color .2s;
+}
+.bg-img-action-btn:hover { border-color:#777; color:#eee; }
+.bg-img-action-btn.danger { border-color:#4a1a1a; color:#c05050; }
+.bg-img-action-btn.danger:hover { border-color:#c05050; color:#ff7070; }
+.bg-img-action-btn.active-toggle { border-color:#888; color:#ccc; background:#1c1c1c; }
 
 /* ═══ PER-LINE EDITOR ═══ */
-#line-editor-list{display:flex;flex-direction:column;gap:7px;padding-right:2px;}
-.line-row{
-  background:#111116;border:1px solid #222;border-radius:9px;
-  padding:9px 11px;display:flex;flex-direction:column;gap:7px;transition:border-color .2s;
+#line-editor-list { display:flex; flex-direction:column; gap:7px; padding-right:2px; }
+.line-row {
+  background:#111; border:1px solid #222; border-radius:9px;
+  padding:9px 11px; display:flex; flex-direction:column; gap:7px; transition:border-color .2s;
 }
-.line-row:hover{border-color:#333;}
-.line-row.has-override{border-color:var(--accent);background:#180f24;}
-.line-row-top{display:flex;align-items:center;gap:7px;}
-.line-num{font-size:9px;color:#383844;letter-spacing:1px;text-transform:uppercase;flex-shrink:0;min-width:36px;}
-.line-preview{font-size:12px;color:#666;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:'Hind',sans-serif;}
-.line-color-wrap{position:relative;width:26px;height:26px;border-radius:50%;border:2px solid #2a2a3a;flex-shrink:0;overflow:hidden;cursor:pointer;}
-.line-color-swatch{position:absolute;inset:0;border-radius:50%;pointer-events:none;}
-.line-color-wrap input[type="color"]{position:absolute;inset:-4px;width:calc(100% + 8px);height:calc(100% + 8px);opacity:0;cursor:pointer;}
-.reset-line-btn{
-  background:transparent;border:1px solid #2a2a3a;border-radius:5px;
-  color:#444;font-size:10px;padding:2px 6px;cursor:pointer;
-  font-family:'Hind',sans-serif;transition:color .2s,border-color .2s;white-space:nowrap;flex-shrink:0;
+.line-row:hover { border-color:#333; }
+.line-row.has-override { border-color:#555; background:#181414; }
+.line-row-top { display:flex; align-items:center; gap:7px; }
+.line-num { font-size:9px; color:#383838; letter-spacing:1px; text-transform:uppercase; flex-shrink:0; min-width:36px; }
+.line-preview { font-size:12px; color:#666; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-family:'Hind',sans-serif; }
+.line-color-wrap { position:relative; width:26px; height:26px; border-radius:50%; border:2px solid #2a2a2a; flex-shrink:0; overflow:hidden; cursor:pointer; }
+.line-color-swatch { position:absolute; inset:0; border-radius:50%; pointer-events:none; }
+.line-color-wrap input[type="color"] { position:absolute; inset:-4px; width:calc(100% + 8px); height:calc(100% + 8px); opacity:0; cursor:pointer; }
+.reset-line-btn {
+  background:transparent; border:1px solid #2a2a2a; border-radius:5px;
+  color:#444; font-size:10px; padding:2px 6px; cursor:pointer;
+  font-family:'Hind',sans-serif; transition:color .2s,border-color .2s; white-space:nowrap; flex-shrink:0;
 }
-.reset-line-btn:hover{color:#ccc;border-color:#777;}
-.line-row-bottom{display:flex;align-items:center;gap:7px;}
-.line-size-label{font-size:10px;color:#444;white-space:nowrap;flex-shrink:0;}
-.line-size-range{flex:1;}
-.line-size-val{font-size:10px;color:#777;min-width:30px;text-align:right;flex-shrink:0;}
+.reset-line-btn:hover { color:#ccc; border-color:#777; }
+.line-row-bottom { display:flex; align-items:center; gap:7px; }
+.line-size-label { font-size:10px; color:#444; white-space:nowrap; flex-shrink:0; }
+.line-size-range { flex:1; }
+.line-size-val { font-size:10px; color:#777; min-width:30px; text-align:right; flex-shrink:0; }
 
-/* ═══ WORD ZOOM INFO ═══ */
-.word-zoom-info{
-  background:#0e0e12;border:1px solid #222;border-radius:8px;
-  padding:10px 12px;font-size:11px;color:var(--muted);line-height:1.7;margin-bottom:8px;
+/* ═══ WORD ZOOM INFO BOX ═══ */
+.word-zoom-info {
+  background:#0e0e0e; border:1px solid #222; border-radius:8px;
+  padding:10px 12px; font-size:11px; color:#555; line-height:1.7; margin-bottom:8px;
 }
-.word-zoom-info b{color:#888;}
+.word-zoom-info b { color:#888; }
 
 /* ═══ POS GRID ═══ */
-.pos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:7px;}
-.pos-btn{
-  background:#111116;border:1px solid var(--border);border-radius:7px;
-  color:#555;font-size:11px;padding:7px 2px;cursor:pointer;
-  font-family:'Hind',sans-serif;text-align:center;
+.pos-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:5px; margin-top:7px; }
+.pos-btn {
+  background:#111; border:1px solid #222; border-radius:7px;
+  color:#666; font-size:11px; padding:7px 2px; cursor:pointer;
+  font-family:'Hind',sans-serif; text-align:center;
   transition:color .2s,border-color .2s,background .2s;
 }
-.pos-btn:hover{color:#eee;border-color:#666;background:#181820;}
-.chip-pos-display{font-size:10px;color:#383844;text-align:center;margin-top:7px;}
-
-.slider-row{display:flex;align-items:center;gap:7px;}
-.slider-row input[type="range"]{flex:1;}
+.pos-btn:hover { color:#eee; border-color:#555; background:#181818; }
+.chip-pos-display { font-size:10px; color:#383838; text-align:center; margin-top:7px; }
+.slider-row { display:flex; align-items:center; gap:7px; }
+.slider-row input[type="range"] { flex:1; }
 
 /* ═══ TOGGLE ROWS ═══ */
-.toggle-row{
-  display:flex;align-items:center;justify-content:space-between;
-  background:#111116;border:1px solid #222;border-radius:9px;
-  padding:10px 13px;cursor:pointer;transition:border-color .2s;user-select:none;
+.toggle-row {
+  display:flex; align-items:center; justify-content:space-between;
+  background:#111; border:1px solid #222; border-radius:9px;
+  padding:10px 13px; cursor:pointer; transition:border-color .2s; user-select:none;
 }
-.toggle-row:hover{border-color:#444;}
-.toggle-row.on{border-color:#555;background:#191924;}
-.toggle-label{font-size:12px;color:var(--muted);font-weight:700;}
-.toggle-row.on .toggle-label{color:#ccc;}
-.tog-switch{
-  width:34px;height:19px;border-radius:10px;background:#333;
-  position:relative;flex-shrink:0;transition:background .2s;
+.toggle-row:hover { border-color:#444; }
+.toggle-row.on { border-color:#888; background:#191919; }
+.toggle-label { font-size:12px; color:#777; font-weight:700; }
+.toggle-row.on .toggle-label { color:#ccc; }
+.tog-switch {
+  width:34px; height:19px; border-radius:10px; background:#333;
+  position:relative; flex-shrink:0; transition:background .2s;
 }
-.tog-switch::after{
-  content:'';position:absolute;width:13px;height:13px;border-radius:50%;
-  background:#fff;top:3px;left:3px;transition:left .2s;
+.tog-switch::after {
+  content:''; position:absolute; width:13px; height:13px; border-radius:50%;
+  background:#fff; top:3px; left:3px; transition:left .2s;
 }
-.toggle-row.on .tog-switch{background:var(--accent);}
-.toggle-row.on .tog-switch::after{left:18px;}
+.toggle-row.on .tog-switch { background:#888; }
+.toggle-row.on .tog-switch::after { left:18px; }
 
-#badge-toggle.on{border-color:#1d9bf0;background:#0d1520;}
-#badge-toggle.on .toggle-label{color:#5bc0f8;}
-#badge-toggle.on .tog-switch{background:#1d9bf0;}
+#badge-toggle.on { border-color:#1d9bf0; background:#0d1520; }
+#badge-toggle.on .toggle-label { color:#5bc0f8; }
+#badge-toggle.on .tog-switch { background:#1d9bf0; }
 
-.badge-size-row{display:flex;gap:5px;margin-top:8px;}
-.badge-size-btn{
-  flex:1;background:#111116;border:1px solid var(--border);border-radius:7px;
-  color:#555;font-size:10px;font-weight:700;padding:6px 4px;
-  cursor:pointer;text-align:center;font-family:'Hind',sans-serif;
+.badge-size-row { display:flex; gap:5px; margin-top:8px; }
+.badge-size-btn {
+  flex:1; background:#111; border:1px solid #2a2a2a; border-radius:7px;
+  color:#666; font-size:10px; font-weight:700; padding:6px 4px;
+  cursor:pointer; text-align:center; font-family:'Hind',sans-serif;
   transition:border-color .2s,color .2s,background .2s;
 }
-.badge-size-btn:hover{border-color:#1d9bf0;color:#5bc0f8;}
-.badge-size-btn.active{border-color:#1d9bf0;background:#0d1520;color:#5bc0f8;}
+.badge-size-btn:hover { border-color:#1d9bf0; color:#5bc0f8; }
+.badge-size-btn.active { border-color:#1d9bf0; background:#0d1520; color:#5bc0f8; }
 
-/* Sep options */
-#sep-options{margin-top:8px;}
+#wm-vis-toggle.on { border-color:#bbb; background:#191919; }
 
-/* Panel desc */
-.panel-desc{font-size:11px;color:#444;line-height:1.6;margin-bottom:10px;}
+/* ═══ BG SHADOW INTENSITY TOGGLE ═══ */
+#bg-img-shadow-toggle.on { border-color:#c8a84b; background:#151209; }
+#bg-img-shadow-toggle.on .toggle-label { color:#e0c060; }
+#bg-img-shadow-toggle.on .tog-switch { background:#c8a84b; }
 
-/* ═══ CENTER BADGE ═══ */
-.center-badge{
-  position:absolute;
-  top:50%;left:50%;transform:translate(-50%,-50%);
-  background:rgba(192,132,252,.15);border:1px solid rgba(192,132,252,.3);
-  border-radius:20px;padding:3px 10px;
-  font-size:9px;font-family:'Hind',sans-serif;font-weight:700;
-  color:rgba(192,132,252,.8);letter-spacing:1px;text-transform:uppercase;
-  pointer-events:none;z-index:103;white-space:nowrap;
-  opacity:0;transition:opacity .3s;
-}
-.guides-hidden .center-badge{opacity:0;}
-.guides-visible .center-badge{opacity:1;}
+#shadow-intensity-wrap { display:none; margin-top:8px; }
+#shadow-intensity-wrap.visible { display:block; }
 </style>
 </head>
 <body>
 
 <div class="app-layout">
 
-<!-- ═══ CARD PREVIEW ═══ -->
-<div class="card-wrap">
-  <div class="app-header">
-    <div class="app-header-logo">✍️</div>
-    <div class="app-header-text">
-      <h1>Ghalib Nama</h1>
-      <p>Shayari Card Maker</p>
-    </div>
-  </div>
+  <!-- ═══════════════ CARD PREVIEW ═══════════════ -->
+  <div class="card-wrap">
+    <div class="card-outer">
 
-  <div class="card-outer">
-
-    <div class="size-selector">
-      <button class="size-btn" data-size="story" onclick="setCardSize('story')">
-        <span class="sb-ratio">9:16</span><span class="sb-label">Story / Reel</span>
-      </button>
-      <button class="size-btn active" data-size="post" onclick="setCardSize('post')">
-        <span class="sb-ratio">1:1</span><span class="sb-label">FB / IG Post</span>
-      </button>
-      <button class="size-btn" data-size="portrait" onclick="setCardSize('portrait')">
-        <span class="sb-ratio">4:5</span><span class="sb-label">IG Portrait</span>
-      </button>
-    </div>
-
-    <div class="guideline-toggle-wrap" id="guideline-toggle-wrap" onclick="toggleGuideline()">
-      <div class="guideline-toggle-switch" id="guideline-toggle-switch"></div>
-      <div>
-        <div class="guideline-toggle-label" id="guideline-toggle-label">📐 Grid & Center Guide</div>
-        <div class="guideline-toggle-hint">Shows safe zones, center cross & rule-of-thirds. Hidden in export.</div>
+      <div class="size-selector">
+        <button class="size-btn" data-size="story" onclick="setCardSize('story')">
+          <span class="sb-ratio">9:16</span><span class="sb-label">Story / Reel</span>
+        </button>
+        <button class="size-btn" data-size="post" onclick="setCardSize('post')">
+          <span class="sb-ratio">1:1</span><span class="sb-label">FB / IG Post</span>
+        </button>
+        <button class="size-btn active" data-size="portrait" onclick="setCardSize('portrait')">
+          <span class="sb-ratio">4:5</span><span class="sb-label">IG Portrait</span>
+        </button>
       </div>
-    </div>
 
-    <!-- THE CARD -->
-    <div id="card" class="guides-hidden">
-
-      <div id="bg-layer"></div>
-      <div id="bg-image-layer"></div>
-      <div id="overlay-layer"></div>
-
-      <!-- Virtual guides (hidden by default) -->
-      <div id="guide-h-line"></div>
-      <div id="guide-v-line"></div>
-      <div id="guide-third-h1"></div>
-      <div id="guide-third-h2"></div>
-      <div id="guide-third-v1"></div>
-      <div id="guide-third-v2"></div>
-      <div class="guide-corner tl"></div>
-      <div class="guide-corner tr"></div>
-      <div class="guide-corner bl"></div>
-      <div class="guide-corner br"></div>
-      <div class="guide-label" id="guide-label">Center ✦ Rule of Thirds</div>
-      <div class="center-badge" id="center-badge">✦ Center</div>
-
-      <!-- PROFILE CHIP -->
-      <div id="profile-chip">
-        <div id="avatar-wrap">
-          <div id="avatar-ring-outer"></div>
-          <div id="avatar-ring-inner"></div>
-          <div id="avatar-img-wrap">
-            <span id="avatar-emoji">✍️</span>
-          </div>
-          <svg id="verified-badge" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="12" fill="#1d9bf0"/>
-            <path d="M9.5 17L5 12.5l1.41-1.41L9.5 14.17l8.09-8.08L19 7.5z" fill="white"/>
-          </svg>
-        </div>
+      <div id="guideline-toggle-wrap" onclick="toggleGuideline()">
+        <div id="guideline-toggle-switch"></div>
         <div>
-          <div class="chip-text-name" id="profile-name-display">Ghalib Nama</div>
-          <div class="chip-text-handle" id="profile-handle-display">@Ghalibnama</div>
+          <div id="guideline-toggle-label">📐 4:5 Safe Zone Guide</div>
+          <div id="guideline-toggle-hint">Download excludes this overlay</div>
         </div>
       </div>
 
-      <!-- SHAYARI -->
-      <div id="shayari-display">
-        <div id="shayari-text"></div>
-      </div>
+      <!-- THE CARD -->
+      <div id="card">
+        <div id="bg-layer"></div>
 
-      <!-- WORD ZOOM POPUP -->
-      <div id="word-zoom-bar">
-        <div class="wz-row1">
-          <button class="wz-btn" id="wz-minus">−</button>
-          <span class="wz-size" id="wz-size-display">23px</span>
-          <button class="wz-btn" id="wz-plus">+</button>
-          <div class="wz-divider"></div>
-          <div class="wz-color-wrap" title="Word colour">
-            <div class="wz-color-swatch" id="wz-color-swatch" style="background:#fff;"></div>
-            <input type="color" id="wz-color-input" value="#ffffff">
+        <!-- DRAGGABLE BG IMAGE -->
+        <img id="bg-img-el" src="" alt="" draggable="false">
+
+        <!-- Premium all-edges shadow overlay for bg image -->
+        <div id="bg-img-shadow-overlay"></div>
+
+        <div id="overlay-layer"></div>
+        <div id="guideline-45"></div>
+
+        <!-- PROFILE CHIP -->
+        <div id="profile-chip">
+          <div id="avatar-wrap">
+            <div id="avatar-ring-outer"></div>
+            <div id="avatar-ring-inner"></div>
+            <div id="avatar-img-wrap">
+              <img id="avatar-img" src="assets/ghalib.jpg" alt=""
+                onerror="this.style.display='none';document.getElementById('avatar-emoji').style.display='flex'">
+              <span id="avatar-emoji" style="display:none;">❤️</span>
+            </div>
+            <img id="verified-badge" alt="verified" src="../assets/blue.png">
           </div>
-          <button class="wz-reset" id="wz-reset-btn">Reset word</button>
+          <div>
+            <div id="profile-name-display">Ghalib Nama</div>
+            <div id="profile-handle-display">@Ghalibnama</div>
+          </div>
         </div>
-        <div class="wz-row2">
-          <span id="wz-font-label">Font:</span>
-          <select id="wz-font-select">
-            <option value="">— inherit global —</option>
-            <option value="'Hind', sans-serif">Hind</option>
-            <option value="'Rozha One', serif">Rozha One</option>
-            <option value="'Noto Serif Devanagari', serif">Noto Serif Devanagari</option>
-            <option value="'Baloo 2', cursive">Baloo 2</option>
-            <option value="'Martel', serif">Martel</option>
-            <option value="'Yatra One', cursive">Yatra One</option>
-            <option value="'Mukta', sans-serif">Mukta</option>
-            <option value="'Eczar', serif">Eczar</option>
-            <option value="'Tiro Devanagari Hindi', serif">Tiro Devanagari Hindi</option>
-            <option value="'Poppins', sans-serif">Poppins</option>
-            <option value="'Playfair Display', serif">Playfair Display</option>
-            <option value="'Lora', serif">Lora</option>
-            <option value="'Abril Fatface', cursive">Abril Fatface</option>
-            <option value="'Cinzel', serif">Cinzel</option>
-            <option value="'Josefin Sans', sans-serif">Josefin Sans</option>
-            <option value="'Dancing Script', cursive">Dancing Script</option>
-            <option value="'Pacifico', cursive">Pacifico</option>
-            <option value="'Satisfy', cursive">Satisfy</option>
-            <option value="'Great Vibes', cursive">Great Vibes</option>
-            <option value="'Caveat', cursive">Caveat</option>
-            <option value="'Amatic SC', cursive">Amatic SC</option>
-            <option value="'Raleway', sans-serif">Raleway</option>
-            <option value="'Oswald', sans-serif">Oswald</option>
-            <option value="'Bebas Neue', cursive">Bebas Neue</option>
-            <option value="'Anton', sans-serif">Anton</option>
-          </select>
+
+        <!-- SHAYARI -->
+        <div id="shayari-display">
+          <div id="shayari-text"></div>
+          <div id="text-drag-hint">2-finger drag to reposition</div>
         </div>
-      </div>
 
-      <div id="watermark">Ghalib Nama</div>
-    </div><!-- /card -->
+        <!-- WORD ZOOM POPUP -->
+        <div id="word-zoom-bar">
+          <div class="wz-row1">
+            <button class="wz-btn" id="wz-minus">−</button>
+            <span class="wz-size" id="wz-size-display">23px</span>
+            <button class="wz-btn" id="wz-plus">+</button>
+            <div class="wz-divider"></div>
+            <div class="wz-color-wrap" title="Word colour">
+              <div class="wz-color-swatch" id="wz-color-swatch" style="background:#111111;"></div>
+              <input type="color" id="wz-color-input" value="#111111">
+            </div>
+            <button class="wz-reset" id="wz-reset-btn">Reset word</button>
+          </div>
+          <div class="wz-row2">
+            <span id="wz-font-label">Font:</span>
+            <select id="wz-font-select">
+              <option value="">— inherit global —</option>
+              <option value="'Hind', sans-serif">Hind</option>
+              <option value="'Rozha One', serif">Rozha One</option>
+              <option value="'Noto Serif Devanagari', serif">Noto Serif Devanagari</option>
+              <option value="'Baloo 2', cursive">Baloo 2</option>
+              <option value="'Martel', serif">Martel</option>
+              <option value="'Yatra One', cursive">Yatra One</option>
+              <option value="'Mukta', sans-serif">Mukta</option>
+              <option value="'Eczar', serif">Eczar</option>
+              <option value="'Tiro Devanagari Hindi', serif">Tiro Devanagari Hindi</option>
+              <option value="'Poppins', sans-serif">Poppins</option>
+              <option value="'Playfair Display', serif">Playfair Display</option>
+              <option value="'Lora', serif">Lora</option>
+              <option value="'Abril Fatface', cursive">Abril Fatface</option>
+              <option value="'Cinzel', serif">Cinzel</option>
+              <option value="'Josefin Sans', sans-serif">Josefin Sans</option>
+              <option value="'Dancing Script', cursive">Dancing Script</option>
+              <option value="'Pacifico', cursive">Pacifico</option>
+              <option value="'Satisfy', cursive">Satisfy</option>
+              <option value="'Great Vibes', cursive">Great Vibes</option>
+              <option value="'Caveat', cursive">Caveat</option>
+              <option value="'Amatic SC', cursive">Amatic SC</option>
+              <option value="'Raleway', sans-serif">Raleway</option>
+              <option value="'Oswald', sans-serif">Oswald</option>
+              <option value="'Bebas Neue', cursive">Bebas Neue</option>
+              <option value="'Anton', sans-serif">Anton</option>
+            </select>
+          </div>
+        </div>
 
-    <button id="download-btn-card" onclick="downloadCard()">⬇ Download Image</button>
-  </div>
-</div><!-- /card-wrap -->
+        <div id="watermark">Ghalib Nama</div>
+      </div><!-- /card -->
 
-<!-- ═══ CONTROLS ═══ -->
-<div class="controls">
-
-  <!-- 1. SHAYARI TEXT -->
-  <div class="panel open" id="panel-shayari">
-    <div class="panel-header" onclick="togglePanel('panel-shayari')">
-      <div class="panel-header-left"><span class="panel-header-icon">✍️</span><span class="panel-title">Shayari Text</span></div>
-      <span class="panel-chevron">▼</span>
+      <button id="download-btn-card" onclick="downloadCard()">⬇ Download Image</button>
     </div>
-    <div class="panel-body">
-      <label>Type your shayari (one line per row)</label>
-      <textarea id="shayari-input" placeholder="यहाँ अपनी शायरी लिखें...
+  </div><!-- /card-wrap -->
 
-हर लफ्ज़ दिल से निकलता है
+  <!-- ═══════════════ CONTROLS ═══════════════ -->
+  <div class="controls">
 
-जो तुमने पढ़ा वो मेरा दर्द था"></textarea>
+    <!-- 1. SHAYARI TEXT -->
+    <div class="panel open" id="panel-shayari">
+      <div class="panel-header" onclick="togglePanel('panel-shayari')">
+        <div class="panel-header-left"><span class="panel-header-icon">✍️</span><span class="panel-title">Shayari Text</span></div>
+        <span class="panel-chevron">▼</span>
+      </div>
+      <div class="panel-body">
+        <label>Type your shayari (one line per row)</label>
+        <textarea id="shayari-input" placeholder="यहाँ अपनी शायरी लिखें...&#10;हर लफ्ज़ दिल से निकलता है&#10;जो तुमने पढ़ा वो मेरा दर्द था"></textarea>
+      </div>
     </div>
-  </div>
 
-  <!-- 2. BACKGROUND -->
-  <div class="panel open" id="panel-bg">
-    <div class="panel-header" onclick="togglePanel('panel-bg')">
-      <div class="panel-header-left"><span class="panel-header-icon">🎨</span><span class="panel-title">Viral Backgrounds</span></div>
-      <span class="panel-chevron">▼</span>
-    </div>
-    <div class="panel-body">
-      <label>Instagram Viral Presets — click to apply + auto text color</label>
-      <div class="bg-list" id="bg-swatches"></div>
-      <label style="margin-top:12px;">Custom Solid Colour</label>
-      <div class="color-row">
-        <input type="color" id="bg-solid-color" value="#1a1a2e" oninput="setBgSolid(this.value)">
-        <span>Custom solid background</span>
+    <!-- 2. TEXT STYLE -->
+    <div class="panel" id="panel-style">
+      <div class="panel-header" onclick="togglePanel('panel-style')">
+        <div class="panel-header-left"><span class="panel-header-icon">🎨</span><span class="panel-title">Text Style</span></div>
+        <span class="panel-chevron">▼</span>
       </div>
-      <label style="margin-top:12px;">Background Image</label>
-      <label class="upload-btn" for="bg-img-input">📸 Upload Your Image</label>
-      <input type="file" id="bg-img-input" accept="image/*" onchange="loadBgImage(this)">
-      <label style="margin-top:12px;">Image Opacity — <span class="val" id="bg-opacity-val">100</span>%</label>
-      <input type="range" min="0" max="100" value="100" id="bg-opacity-range" oninput="setBgOpacity(this.value)">
-      <label style="margin-top:12px;">Dark Overlay — <span class="val" id="overlay-val">0</span>%</label>
-      <input type="range" min="0" max="90" value="0" id="overlay-range" oninput="setOverlay(this.value)">
-    </div>
-  </div>
+      <div class="panel-body">
+        <label>Font Family (click to apply)</label>
+        <div class="font-grid" id="font-grid">
+          <div class="font-card active" data-font="'Hind', sans-serif"><div class="fp" style="font-family:'Hind',sans-serif;">हिंदी Aa</div><div class="fn">Hind</div></div>
+          <div class="font-card" data-font="'Rozha One', serif"><div class="fp" style="font-family:'Rozha One',serif;">हिंदी Aa</div><div class="fn">Rozha One</div></div>
+          <div class="font-card" data-font="'Noto Serif Devanagari', serif"><div class="fp" style="font-family:'Noto Serif Devanagari',serif;">हिंदी Aa</div><div class="fn">Noto Serif Deva</div></div>
+          <div class="font-card" data-font="'Baloo 2', cursive"><div class="fp" style="font-family:'Baloo 2',cursive;">हिंदी Aa</div><div class="fn">Baloo 2</div></div>
+          <div class="font-card" data-font="'Martel', serif"><div class="fp" style="font-family:'Martel',serif;">हिंदी Aa</div><div class="fn">Martel</div></div>
+          <div class="font-card" data-font="'Yatra One', cursive"><div class="fp" style="font-family:'Yatra One',cursive;">हिंदी Aa</div><div class="fn">Yatra One</div></div>
+          <div class="font-card" data-font="'Mukta', sans-serif"><div class="fp" style="font-family:'Mukta',sans-serif;">हिंदी Aa</div><div class="fn">Mukta</div></div>
+          <div class="font-card" data-font="'Eczar', serif"><div class="fp" style="font-family:'Eczar',serif;">हिंदी Aa</div><div class="fn">Eczar</div></div>
+          <div class="font-card" data-font="'Tiro Devanagari Hindi', serif"><div class="fp" style="font-family:'Tiro Devanagari Hindi',serif;">हिंदी Aa</div><div class="fn">Tiro Devanagari</div></div>
+          <div class="font-card" data-font="'Poppins', sans-serif"><div class="fp" style="font-family:'Poppins',sans-serif;">Hindi Aa</div><div class="fn">Poppins</div></div>
+          <div class="font-card" data-font="'Playfair Display', serif"><div class="fp" style="font-family:'Playfair Display',serif;">Hindi Aa</div><div class="fn">Playfair Display</div></div>
+          <div class="font-card" data-font="'Lora', serif"><div class="fp" style="font-family:'Lora',serif;">Hindi Aa</div><div class="fn">Lora</div></div>
+          <div class="font-card" data-font="'Abril Fatface', cursive"><div class="fp" style="font-family:'Abril Fatface',cursive;">Hindi Aa</div><div class="fn">Abril Fatface</div></div>
+          <div class="font-card" data-font="'Cinzel', serif"><div class="fp" style="font-family:'Cinzel',serif;">HINDI AA</div><div class="fn">Cinzel</div></div>
+          <div class="font-card" data-font="'Josefin Sans', sans-serif"><div class="fp" style="font-family:'Josefin Sans',sans-serif;">Hindi Aa</div><div class="fn">Josefin Sans</div></div>
+          <div class="font-card" data-font="'Dancing Script', cursive"><div class="fp" style="font-family:'Dancing Script',cursive;">Hindi Aa</div><div class="fn">Dancing Script</div></div>
+          <div class="font-card" data-font="'Pacifico', cursive"><div class="fp" style="font-family:'Pacifico',cursive;">Hindi Aa</div><div class="fn">Pacifico</div></div>
+          <div class="font-card" data-font="'Satisfy', cursive"><div class="fp" style="font-family:'Satisfy',cursive;">Hindi Aa</div><div class="fn">Satisfy</div></div>
+          <div class="font-card" data-font="'Great Vibes', cursive"><div class="fp" style="font-family:'Great Vibes',cursive;">Hindi Aa</div><div class="fn">Great Vibes</div></div>
+          <div class="font-card" data-font="'Caveat', cursive"><div class="fp" style="font-family:'Caveat',cursive;">Hindi Aa</div><div class="fn">Caveat</div></div>
+          <div class="font-card" data-font="'Amatic SC', cursive"><div class="fp" style="font-family:'Amatic SC',cursive;">HINDI AA</div><div class="fn">Amatic SC</div></div>
+          <div class="font-card" data-font="'Raleway', sans-serif"><div class="fp" style="font-family:'Raleway',sans-serif;">Hindi Aa</div><div class="fn">Raleway</div></div>
+          <div class="font-card" data-font="'Oswald', sans-serif"><div class="fp" style="font-family:'Oswald',sans-serif;">HINDI AA</div><div class="fn">Oswald</div></div>
+          <div class="font-card" data-font="'Bebas Neue', cursive"><div class="fp" style="font-family:'Bebas Neue',cursive;">HINDI AA</div><div class="fn">Bebas Neue</div></div>
+          <div class="font-card" data-font="'Anton', sans-serif"><div class="fp" style="font-family:'Anton',sans-serif;">HINDI AA</div><div class="fn">Anton</div></div>
+        </div>
 
-  <!-- 3. TEXT STYLE -->
-  <div class="panel" id="panel-style">
-    <div class="panel-header" onclick="togglePanel('panel-style')">
-      <div class="panel-header-left"><span class="panel-header-icon">🖋️</span><span class="panel-title">Text Style</span></div>
-      <span class="panel-chevron">▼</span>
-    </div>
-    <div class="panel-body">
-      <label>Font Family</label>
-      <div class="font-grid" id="font-grid">
-        <div class="font-card active" data-font="'Hind', sans-serif"><div class="fp" style="font-family:'Hind',sans-serif;">हिंदी Aa</div><div class="fn">Hind</div></div>
-        <div class="font-card" data-font="'Rozha One', serif"><div class="fp" style="font-family:'Rozha One',serif;">हिंदी Aa</div><div class="fn">Rozha One</div></div>
-        <div class="font-card" data-font="'Noto Serif Devanagari', serif"><div class="fp" style="font-family:'Noto Serif Devanagari',serif;">हिंदी Aa</div><div class="fn">Noto Serif</div></div>
-        <div class="font-card" data-font="'Baloo 2', cursive"><div class="fp" style="font-family:'Baloo 2',cursive;">हिंदी Aa</div><div class="fn">Baloo 2</div></div>
-        <div class="font-card" data-font="'Martel', serif"><div class="fp" style="font-family:'Martel',serif;">हिंदी Aa</div><div class="fn">Martel</div></div>
-        <div class="font-card" data-font="'Yatra One', cursive"><div class="fp" style="font-family:'Yatra One',cursive;">हिंदी Aa</div><div class="fn">Yatra One</div></div>
-        <div class="font-card" data-font="'Mukta', sans-serif"><div class="fp" style="font-family:'Mukta',sans-serif;">हिंदी Aa</div><div class="fn">Mukta</div></div>
-        <div class="font-card" data-font="'Eczar', serif"><div class="fp" style="font-family:'Eczar',serif;">हिंदी Aa</div><div class="fn">Eczar</div></div>
-        <div class="font-card" data-font="'Tiro Devanagari Hindi', serif"><div class="fp" style="font-family:'Tiro Devanagari Hindi',serif;">हिंदी Aa</div><div class="fn">Tiro Devanagari</div></div>
-        <div class="font-card" data-font="'Poppins', sans-serif"><div class="fp" style="font-family:'Poppins',sans-serif;">Hindi Aa</div><div class="fn">Poppins</div></div>
-        <div class="font-card" data-font="'Playfair Display', serif"><div class="fp" style="font-family:'Playfair Display',serif;">Hindi Aa</div><div class="fn">Playfair Display</div></div>
-        <div class="font-card" data-font="'Lora', serif"><div class="fp" style="font-family:'Lora',serif;">Hindi Aa</div><div class="fn">Lora</div></div>
-        <div class="font-card" data-font="'Abril Fatface', cursive"><div class="fp" style="font-family:'Abril Fatface',cursive;">Hindi Aa</div><div class="fn">Abril Fatface</div></div>
-        <div class="font-card" data-font="'Cinzel', serif"><div class="fp" style="font-family:'Cinzel',serif;">HINDI AA</div><div class="fn">Cinzel</div></div>
-        <div class="font-card" data-font="'Dancing Script', cursive"><div class="fp" style="font-family:'Dancing Script',cursive;">Hindi Aa</div><div class="fn">Dancing Script</div></div>
-        <div class="font-card" data-font="'Great Vibes', cursive"><div class="fp" style="font-family:'Great Vibes',cursive;">Hindi Aa</div><div class="fn">Great Vibes</div></div>
-        <div class="font-card" data-font="'Raleway', sans-serif"><div class="fp" style="font-family:'Raleway',sans-serif;">Hindi Aa</div><div class="fn">Raleway</div></div>
-        <div class="font-card" data-font="'Oswald', sans-serif"><div class="fp" style="font-family:'Oswald',sans-serif;">HINDI AA</div><div class="fn">Oswald</div></div>
-        <div class="font-card" data-font="'Bebas Neue', cursive"><div class="fp" style="font-family:'Bebas Neue',cursive;">HINDI AA</div><div class="fn">Bebas Neue</div></div>
-        <div class="font-card" data-font="'Anton', sans-serif"><div class="fp" style="font-family:'Anton',sans-serif;">HINDI AA</div><div class="fn">Anton</div></div>
-      </div>
+        <label style="margin-top:14px;">Font Size — <span class="val" id="font-size-val">23</span>px</label>
+        <input type="range" min="12" max="60" value="23" id="font-size-range" oninput="setFontSize(this.value)">
 
-      <label style="margin-top:14px;">Font Size — <span class="val" id="font-size-val">23</span>px</label>
-      <input type="range" min="12" max="60" value="23" id="font-size-range" oninput="setFontSize(this.value)">
+        <label>Line Height — <span class="val" id="line-height-val">2.05</span></label>
+        <input type="range" min="1.0" max="3.0" step="0.05" value="2.05" id="line-height-range" oninput="setLineHeight(this.value)">
 
-      <label>Line Height — <span class="val" id="line-height-val">2.05</span></label>
-      <input type="range" min="1.0" max="3.0" step="0.05" value="2.05" id="line-height-range" oninput="setLineHeight(this.value)">
+        <label>Letter Spacing — <span class="val" id="letter-spacing-val">0</span>px</label>
+        <input type="range" min="-2" max="8" step="0.5" value="0" id="letter-spacing-range" oninput="setLetterSpacing(this.value)">
 
-      <label>Letter Spacing — <span class="val" id="letter-spacing-val">0</span>px</label>
-      <input type="range" min="-2" max="8" step="0.5" value="0" id="letter-spacing-range" oninput="setLetterSpacing(this.value)">
+        <label>Font Weight</label>
+        <div class="align-row" id="weight-row">
+          <button class="align-btn" onclick="setWeight('400',this)">Regular</button>
+          <button class="align-btn" onclick="setWeight('600',this)">Semi</button>
+          <button class="align-btn active" onclick="setWeight('700',this)">Bold</button>
+          <button class="align-btn" onclick="setWeight('900',this)">Black</button>
+        </div>
 
-      <label>Font Weight</label>
-      <div class="align-row" id="weight-row">
-        <button class="align-btn" onclick="setWeight('400',this)">Regular</button>
-        <button class="align-btn" onclick="setWeight('600',this)">Semi</button>
-        <button class="align-btn active" onclick="setWeight('700',this)">Bold</button>
-        <button class="align-btn" onclick="setWeight('900',this)">Black</button>
-      </div>
+        <label>Text Alignment</label>
+        <div class="align-row" id="align-row">
+          <button class="align-btn" onclick="setAlign('left',this)">Left</button>
+          <button class="align-btn active" onclick="setAlign('center',this)">Centre</button>
+          <button class="align-btn" onclick="setAlign('right',this)">Right</button>
+        </div>
 
-      <label>Text Alignment</label>
-      <div class="align-row" id="align-row">
-        <button class="align-btn" onclick="setAlign('left',this)">Left</button>
-        <button class="align-btn active" onclick="setAlign('center',this)">Centre</button>
-        <button class="align-btn" onclick="setAlign('right',this)">Right</button>
-      </div>
-
-      <label>Global Text Colour</label>
-      <div class="color-row">
-        <input type="color" id="text-color" value="#ffffff" oninput="setTextColor(this.value)">
-        <span>Base colour for all text</span>
-      </div>
-
-      <label>Text Shadow</label>
-      <div class="align-row" id="shadow-row">
-        <button class="align-btn" onclick="setTextShadow('none',this)">None</button>
-        <button class="align-btn active" onclick="setTextShadow('soft',this)">Soft</button>
-        <button class="align-btn" onclick="setTextShadow('hard',this)">Hard</button>
-        <button class="align-btn" onclick="setTextShadow('glow',this)">Glow</button>
-      </div>
-
-      <label style="margin-top:14px;">Line Separator</label>
-      <div class="align-row" id="sep-style-row">
-        <button class="align-btn active" onclick="setSepStyle('none',this)">None</button>
-        <button class="align-btn" onclick="setSepStyle('line',this)">Line</button>
-        <button class="align-btn" onclick="setSepStyle('dots',this)">· · ·</button>
-        <button class="align-btn" onclick="setSepStyle('diamond',this)">◆</button>
-      </div>
-      <div id="sep-options" style="display:none;">
-        <label>Separator Colour</label>
+        <label>Global Text Colour</label>
         <div class="color-row">
-          <input type="color" id="sep-color" value="#ffffff" oninput="setSepColor(this.value)">
-          <span>Line / ornament colour</span>
+          <input type="color" id="text-color" value="#111111" oninput="setTextColor(this.value)">
+          <span>Base colour for all text</span>
         </div>
-        <label style="margin-top:8px;">Opacity — <span class="val" id="sep-opacity-val">35</span>%</label>
-        <input type="range" min="5" max="100" value="35" id="sep-opacity-range" oninput="setSepOpacity(this.value)">
-        <label style="margin-top:8px;">Width — <span class="val" id="sep-width-val">60</span>%</label>
-        <input type="range" min="10" max="100" value="60" id="sep-width-range" oninput="setSepWidth(this.value)">
-      </div>
-    </div>
-  </div>
 
-  <!-- 4. PER-LINE STYLE -->
-  <div class="panel" id="panel-lines">
-    <div class="panel-header" onclick="togglePanel('panel-lines')">
-      <div class="panel-header-left"><span class="panel-header-icon">📝</span><span class="panel-title">Per-Line Style</span></div>
-      <span class="panel-chevron">▼</span>
-    </div>
-    <div class="panel-body">
-      <p class="panel-desc">Override colour & size for each individual line.</p>
-      <div id="line-editor-list"></div>
-    </div>
-  </div>
+        <label>Text Shadow</label>
+        <div class="align-row" id="shadow-row">
+          <button class="align-btn active" onclick="setTextShadow('none',this)">None</button>
+          <button class="align-btn" onclick="setTextShadow('soft',this)">Soft</button>
+          <button class="align-btn" onclick="setTextShadow('hard',this)">Hard</button>
+          <button class="align-btn" onclick="setTextShadow('glow',this)">Glow</button>
+        </div>
 
-  <!-- 5. WORD-LEVEL STYLE -->
-  <div class="panel" id="panel-word">
-    <div class="panel-header" onclick="togglePanel('panel-word')">
-      <div class="panel-header-left"><span class="panel-header-icon">🔍</span><span class="panel-title">Word-Level Style</span></div>
-      <span class="panel-chevron">▼</span>
-    </div>
-    <div class="panel-body">
-      <div class="word-zoom-info">
-        <b>How to use:</b> Tap / click any individual word directly on the card preview above.<br>
-        A popup appears — change that word's size, colour &amp; font independently.<br>
-        Tap anywhere else on the card to dismiss.
-      </div>
-    </div>
-  </div>
+        <label style="margin-top:14px;">Line Separator</label>
+        <div class="align-row" id="sep-style-row">
+          <button class="align-btn active" onclick="setSepStyle('none',this)">None</button>
+          <button class="align-btn" onclick="setSepStyle('line',this)">Line</button>
+          <button class="align-btn" onclick="setSepStyle('dots',this)">· · ·</button>
+          <button class="align-btn" onclick="setSepStyle('diamond',this)">◆</button>
+        </div>
 
-  <!-- 6. TEXT POSITION -->
-  <div class="panel" id="panel-textpos">
-    <div class="panel-header" onclick="togglePanel('panel-textpos')">
-      <div class="panel-header-left"><span class="panel-header-icon">📍</span><span class="panel-title">Text Position</span></div>
-      <span class="panel-chevron">▼</span>
-    </div>
-    <div class="panel-body">
-      <p class="panel-desc">Drag the shayari block on the card, or use quick presets. <b>Center</b> is default for IG/FB.</p>
-      <div class="pos-grid">
-        <button class="pos-btn" onclick="setTextPos('top-left')">↖ Top Left</button>
-        <button class="pos-btn" onclick="setTextPos('top-center')">↑ Top Ctr</button>
-        <button class="pos-btn" onclick="setTextPos('top-right')">↗ Top Right</button>
-        <button class="pos-btn" onclick="setTextPos('mid-left')">← Mid Left</button>
-        <button class="pos-btn" onclick="setTextPos('mid-center')">✦ Center</button>
-        <button class="pos-btn" onclick="setTextPos('mid-right')">→ Mid Right</button>
-        <button class="pos-btn" onclick="setTextPos('bot-left')">↙ Bot Left</button>
-        <button class="pos-btn" onclick="setTextPos('bot-center')">↓ Bot Ctr</button>
-        <button class="pos-btn" onclick="setTextPos('bot-right')">↘ Bot Right</button>
-      </div>
-      <label style="margin-top:12px;">Text Block Width — <span class="val" id="text-width-val">88</span>%</label>
-      <div class="slider-row">
-        <input type="range" min="30" max="100" value="88" id="text-width-range" oninput="setTextWidth(this.value)">
+        <div id="sep-options" style="display:none;margin-top:8px;">
+          <label>Separator Colour</label>
+          <div class="color-row">
+            <input type="color" id="sep-color" value="#111111" oninput="setSepColor(this.value)">
+            <span>Line / ornament colour</span>
+          </div>
+          <label style="margin-top:8px;">Opacity — <span class="val" id="sep-opacity-val">35</span>%</label>
+          <input type="range" min="5" max="100" value="35" id="sep-opacity-range" oninput="setSepOpacity(this.value)">
+          <label style="margin-top:8px;">Width — <span class="val" id="sep-width-val">60</span>%</label>
+          <input type="range" min="10" max="100" value="60" id="sep-width-range" oninput="setSepWidth(this.value)">
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- 7. PROFILE CHIP -->
-  <div class="panel" id="panel-chip">
-    <div class="panel-header" onclick="togglePanel('panel-chip')">
-      <div class="panel-header-left"><span class="panel-header-icon">👤</span><span class="panel-title">Profile Chip</span></div>
-      <span class="panel-chevron">▼</span>
-    </div>
-    <div class="panel-body">
-      <div class="toggle-row on" id="chip-vis-toggle" onclick="toggleChipVis()">
-        <span class="toggle-label">Show Profile Chip</span>
-        <div class="tog-switch"></div>
+    <!-- 3. PER-LINE STYLE -->
+    <div class="panel" id="panel-lines">
+      <div class="panel-header" onclick="togglePanel('panel-lines')">
+        <div class="panel-header-left"><span class="panel-header-icon">📝</span><span class="panel-title">Per-Line Style</span></div>
+        <span class="panel-chevron">▼</span>
       </div>
-      <div class="toggle-row on" id="badge-toggle" onclick="toggleBadge()" style="margin-top:8px;">
-        <span class="toggle-label">✅ Verified Badge</span>
-        <div class="tog-switch"></div>
-      </div>
-      <label style="margin-top:10px;">Badge Size</label>
-      <div class="badge-size-row">
-        <button class="badge-size-btn" onclick="setBadgeSize(14,this)">S</button>
-        <button class="badge-size-btn active" onclick="setBadgeSize(18,this)">M</button>
-        <button class="badge-size-btn" onclick="setBadgeSize(24,this)">L</button>
-        <button class="badge-size-btn" onclick="setBadgeSize(30,this)">XL</button>
-      </div>
-      <label style="margin-top:12px;">Chip Scale — <span class="val" id="chip-scale-val">100</span>%</label>
-      <input type="range" min="60" max="160" value="100" id="chip-scale-range" oninput="setChipScale(this.value)">
-      <label style="margin-top:12px;">Quick Position</label>
-      <div class="pos-grid">
-        <button class="pos-btn" onclick="setChipPos('top-left')">↖ Top Left</button>
-        <button class="pos-btn" onclick="setChipPos('top-center')">↑ Top Ctr</button>
-        <button class="pos-btn" onclick="setChipPos('top-right')">↗ Top Right</button>
-        <button class="pos-btn" onclick="setChipPos('mid-left')">← Mid Left</button>
-        <button class="pos-btn" onclick="setChipPos('mid-center')">· Center</button>
-        <button class="pos-btn" onclick="setChipPos('mid-right')">→ Mid Right</button>
-        <button class="pos-btn" onclick="setChipPos('bot-left')">↙ Bot Left</button>
-        <button class="pos-btn" onclick="setChipPos('bot-center')">↓ Bot Ctr</button>
-        <button class="pos-btn" onclick="setChipPos('bot-right')">↘ Bot Right</button>
-      </div>
-      <div class="chip-pos-display">Or drag the chip on the card to fine-tune position</div>
-      <label style="margin-top:12px;">Name Colour</label>
-      <div class="color-row">
-        <input type="color" id="chip-name-color" value="#ffffff" oninput="document.getElementById('profile-name-display').style.color=this.value">
-        <span>Display name colour</span>
-      </div>
-      <label>Handle Colour</label>
-      <div class="color-row">
-        <input type="color" id="chip-handle-color" value="#cccccc" oninput="document.getElementById('profile-handle-display').style.color=this.value">
-        <span>@username colour</span>
+      <div class="panel-body">
+        <p class="panel-desc">Override colour & size for each individual line.</p>
+        <div id="line-editor-list"></div>
       </div>
     </div>
-  </div>
 
-  <!-- 8. WATERMARK -->
-  <div class="panel" id="panel-watermark">
-    <div class="panel-header" onclick="togglePanel('panel-watermark')">
-      <div class="panel-header-left"><span class="panel-header-icon">💧</span><span class="panel-title">Watermark</span></div>
-      <span class="panel-chevron">▼</span>
-    </div>
-    <div class="panel-body">
-      <div class="toggle-row on" id="wm-vis-toggle" onclick="toggleWmVis()">
-        <span class="toggle-label">Show "Ghalib Nama" Watermark</span>
-        <div class="tog-switch"></div>
+    <!-- 4. WORD-LEVEL STYLE -->
+    <div class="panel" id="panel-word">
+      <div class="panel-header" onclick="togglePanel('panel-word')">
+        <div class="panel-header-left"><span class="panel-header-icon">🔍</span><span class="panel-title">Word-Level Style</span></div>
+        <span class="panel-chevron">▼</span>
       </div>
-      <label style="margin-top:12px;">Opacity — <span class="val" id="wm-opacity-val">28</span>%</label>
-      <input type="range" min="5" max="80" value="28" id="wm-opacity-range" oninput="setWmOpacity(this.value)">
-      <label>Colour</label>
-      <div class="color-row">
-        <input type="color" id="wm-color" value="#ffffff" oninput="setWmColor(this.value)">
-        <span>Watermark text colour</span>
+      <div class="panel-body">
+        <div class="word-zoom-info">
+          <b>How to use:</b> Tap / click any individual word directly on the card preview above.<br>
+          A popup appears — change that word's size, colour &amp; font independently.<br>
+          Tap anywhere else on the card to dismiss.
+        </div>
       </div>
-      <label>Size — <span class="val" id="wm-size-val">11</span>px</label>
-      <input type="range" min="8" max="24" value="11" id="wm-size-range" oninput="setWmSize(this.value)">
     </div>
-  </div>
 
-  <!-- DOWNLOAD -->
-  <div class="panel-download">
-    <span class="panel-download-title">⬇ Download</span>
-    <p class="panel-desc">Exports at chosen resolution. Guidelines & UI chrome are excluded from the image.</p>
-    <label>Export Scale — <span class="val" id="export-scale-val">2</span>×</label>
-    <input type="range" min="1" max="4" step="0.5" value="2" id="export-scale-range"
-      oninput="document.getElementById('export-scale-val').textContent=this.value">
-    <button id="download-btn-panel" onclick="downloadCard()">⬇ Download Image</button>
-  </div>
+    <!-- 5. BACKGROUND -->
+    <div class="panel" id="panel-bg">
+      <div class="panel-header" onclick="togglePanel('panel-bg')">
+        <div class="panel-header-left"><span class="panel-header-icon">🖼️</span><span class="panel-title">Background</span></div>
+        <span class="panel-chevron">▼</span>
+      </div>
+      <div class="panel-body">
+        <label>Preset Gradients</label>
+        <div class="bg-list" id="bg-swatches"></div>
 
-</div><!-- /controls -->
+        <label style="margin-top:12px;">Solid Colour</label>
+        <div class="color-row">
+          <input type="color" id="bg-solid-color" value="#d9d9d9" oninput="setBgSolid(this.value)">
+          <span>Custom solid background</span>
+        </div>
 
+        <label style="margin-top:12px;">Background Image</label>
+        <label class="upload-btn" for="bg-img-input">📸 Upload Image (PNG / JPG / WebP)</label>
+        <input type="file" id="bg-img-input" accept="image/*" onchange="loadBgImage(this)">
+
+        <!-- BG IMAGE CONTROLS — shown after upload -->
+        <div id="bg-img-controls">
+          <div class="bg-img-hint">
+            <b>🖱 Drag</b> the image directly on the card to reposition it anywhere.<br>
+            Use the scale slider below to resize it.
+          </div>
+
+          <label style="margin-top:4px;">Image Scale — <span class="val" id="bg-img-scale-val">100</span>%</label>
+          <input type="range" min="10" max="400" value="100" id="bg-img-scale-range" oninput="setBgImgScale(this.value)">
+
+          <label>Image Opacity — <span class="val" id="bg-opacity-val">100</span>%</label>
+          <input type="range" min="0" max="100" value="100" id="bg-opacity-range" oninput="setBgOpacity(this.value)">
+
+          <!-- ✨ NEW: Premium all-edges shadow toggle -->
+          <div class="toggle-row on" id="bg-img-shadow-toggle" onclick="toggleBgImgEdgeShadow()" style="margin-top:4px;">
+            <span class="toggle-label">✨ Premium Edge Shadow</span>
+            <div class="tog-switch"></div>
+          </div>
+
+          <div id="shadow-intensity-wrap" class="visible">
+            <label style="margin-top:8px;">Shadow Intensity — <span class="val" id="shadow-intensity-val">60</span>%</label>
+            <input type="range" min="10" max="100" value="60" id="shadow-intensity-range" oninput="setShadowIntensity(this.value)">
+          </div>
+
+          <div class="bg-img-btn-row">
+            <button class="bg-img-action-btn" onclick="centerBgImg()">⊙ Centre Image</button>
+            <button class="bg-img-action-btn" onclick="fitBgImg()">⤢ Fit to Card</button>
+            <button class="bg-img-action-btn" onclick="fillBgImg()">⬛ Fill Card</button>
+            <button class="bg-img-action-btn danger" onclick="removeBgImg()">✕ Remove</button>
+          </div>
+        </div>
+
+        <!-- Overlay — always visible -->
+        <label style="margin-top:12px;">Dark Overlay — <span class="val" id="overlay-val">0</span>%</label>
+        <input type="range" min="0" max="90" value="0" id="overlay-range" oninput="setOverlay(this.value)">
+      </div>
+    </div>
+
+    <!-- 6. PROFILE CHIP -->
+    <div class="panel" id="panel-chip">
+      <div class="panel-header" onclick="togglePanel('panel-chip')">
+        <div class="panel-header-left"><span class="panel-header-icon">👤</span><span class="panel-title">Profile Chip</span></div>
+        <span class="panel-chevron">▼</span>
+      </div>
+      <div class="panel-body">
+        <div class="toggle-row on" id="chip-vis-toggle" onclick="toggleChipVis()">
+          <span class="toggle-label">Show Profile Chip</span>
+          <div class="tog-switch"></div>
+        </div>
+        <div class="toggle-row on" id="badge-toggle" onclick="toggleBadge()" style="margin-top:8px;">
+          <span class="toggle-label">✅ Verified Badge</span>
+          <div class="tog-switch"></div>
+        </div>
+        <label style="margin-top:10px;">Badge Size</label>
+        <div class="badge-size-row">
+          <button class="badge-size-btn" onclick="setBadgeSize(14,this)">S</button>
+          <button class="badge-size-btn active" onclick="setBadgeSize(18,this)">M</button>
+          <button class="badge-size-btn" onclick="setBadgeSize(24,this)">L</button>
+          <button class="badge-size-btn" onclick="setBadgeSize(30,this)">XL</button>
+        </div>
+        <label style="margin-top:12px;">Chip Scale — <span class="val" id="chip-scale-val">100</span>%</label>
+        <input type="range" min="60" max="160" value="100" id="chip-scale-range" oninput="setChipScale(this.value)">
+        <label style="margin-top:12px;">Quick Position</label>
+        <div class="pos-grid">
+          <button class="pos-btn" onclick="setChipPos('top-left')">↖ Top Left</button>
+          <button class="pos-btn" onclick="setChipPos('top-center')">↑ Top Ctr</button>
+          <button class="pos-btn" onclick="setChipPos('top-right')">↗ Top Right</button>
+          <button class="pos-btn" onclick="setChipPos('mid-left')">← Mid Left</button>
+          <button class="pos-btn" onclick="setChipPos('mid-center')">· Center</button>
+          <button class="pos-btn" onclick="setChipPos('mid-right')">→ Mid Right</button>
+          <button class="pos-btn" onclick="setChipPos('bot-left')">↙ Bot Left</button>
+          <button class="pos-btn" onclick="setChipPos('bot-center')">↓ Bot Ctr</button>
+          <button class="pos-btn" onclick="setChipPos('bot-right')">↘ Bot Right</button>
+        </div>
+        <div class="chip-pos-display">Or drag the chip on the card to fine-tune position</div>
+        <label style="margin-top:12px;">Name Colour</label>
+        <div class="color-row">
+          <input type="color" id="chip-name-color" value="#111111" oninput="document.getElementById('profile-name-display').style.color=this.value">
+          <span>Display name colour</span>
+        </div>
+        <label>Handle Colour</label>
+        <div class="color-row">
+          <input type="color" id="chip-handle-color" value="#555555" oninput="document.getElementById('profile-handle-display').style.color=this.value">
+          <span>@username colour</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. WATERMARK -->
+    <div class="panel" id="panel-watermark">
+      <div class="panel-header" onclick="togglePanel('panel-watermark')">
+        <div class="panel-header-left"><span class="panel-header-icon">💧</span><span class="panel-title">Watermark</span></div>
+        <span class="panel-chevron">▼</span>
+      </div>
+      <div class="panel-body">
+        <div class="toggle-row on" id="wm-vis-toggle" onclick="toggleWmVis()">
+          <span class="toggle-label">Show "Ghalib Nama" Watermark</span>
+          <div class="tog-switch"></div>
+        </div>
+        <label style="margin-top:12px;">Opacity — <span class="val" id="wm-opacity-val">28</span>%</label>
+        <input type="range" min="5" max="80" value="28" id="wm-opacity-range" oninput="setWmOpacity(this.value)">
+        <label>Colour</label>
+        <div class="color-row">
+          <input type="color" id="wm-color" value="#000000" oninput="setWmColor(this.value)">
+          <span>Watermark text colour</span>
+        </div>
+        <label>Size — <span class="val" id="wm-size-val">11</span>px</label>
+        <input type="range" min="8" max="24" value="11" id="wm-size-range" oninput="setWmSize(this.value)">
+      </div>
+    </div>
+
+    <!-- 8. TEXT POSITION -->
+    <div class="panel" id="panel-textpos">
+      <div class="panel-header" onclick="togglePanel('panel-textpos')">
+        <div class="panel-header-left"><span class="panel-header-icon">📍</span><span class="panel-title">Text Position</span></div>
+        <span class="panel-chevron">▼</span>
+      </div>
+      <div class="panel-body">
+        <p class="panel-desc">Drag the shayari block on the card, or use quick presets below.</p>
+        <div class="pos-grid">
+          <button class="pos-btn" onclick="setTextPos('top-left')">↖ Top Left</button>
+          <button class="pos-btn" onclick="setTextPos('top-center')">↑ Top Ctr</button>
+          <button class="pos-btn" onclick="setTextPos('top-right')">↗ Top Right</button>
+          <button class="pos-btn" onclick="setTextPos('mid-left')">← Mid Left</button>
+          <button class="pos-btn" onclick="setTextPos('mid-center')">· Center</button>
+          <button class="pos-btn" onclick="setTextPos('mid-right')">→ Mid Right</button>
+          <button class="pos-btn" onclick="setTextPos('bot-left')">↙ Bot Left</button>
+          <button class="pos-btn" onclick="setTextPos('bot-center')">↓ Bot Ctr</button>
+          <button class="pos-btn" onclick="setTextPos('bot-right')">↘ Bot Right</button>
+        </div>
+        <label style="margin-top:12px;">Text Block Width — <span class="val" id="text-width-val">88</span>%</label>
+        <div class="slider-row">
+          <input type="range" min="30" max="100" value="88" id="text-width-range" oninput="setTextWidth(this.value)">
+        </div>
+      </div>
+    </div>
+
+    <!-- DOWNLOAD -->
+    <div class="panel-download">
+      <span class="panel-download-title">⬇ Download</span>
+      <p class="panel-desc">Exports at chosen resolution. Guidelines & UI chrome are excluded.</p>
+      <label>Export Scale — <span class="val" id="export-scale-val">2</span>×</label>
+      <input type="range" min="1" max="4" step="0.5" value="2" id="export-scale-range"
+        oninput="document.getElementById('export-scale-val').textContent=this.value">
+      <button id="download-btn-panel" onclick="downloadCard()">⬇ Download Image</button>
+    </div>
+
+  </div><!-- /controls -->
 </div><!-- /app-layout -->
 
 <script>
-/* ════════════════════════════════════
+/* ══════════════════════════════════════════
    CONSTANTS & STATE
-════════════════════════════════════ */
+══════════════════════════════════════════ */
 const SIZES = {
-  story:   { w: 340, h: 604 },
-  post:    { w: 400, h: 400 },
-  portrait:{ w: 380, h: 475 },
+  story:    { w:340, h:604 },
+  post:     { w:400, h:400 },
+  portrait: { w:380, h:475 },
 };
 
-let currentSize = 'post';
-let guidelineOn = false;
-let chipVisible = true;
-let badgeVisible = true;
-let wmVisible = true;
-let wordOverrides = {};
-let lineOverrides = {};
+let guidelineOn     = false;
+let chipVisible     = true;
+let badgeVisible    = true;
+let wmVisible       = true;
+let wordOverrides   = {};
+let lineOverrides   = {};
 let selectedWordKey = null;
-let sepStyle = 'none';
-let sepColor = '#ffffff';
-let sepOpacity = 35;
-let sepWidth = 60;
-let textPosManual = false;
-let manualTop = 0, manualLeft = 0;
+let sepStyle        = 'none';
+let sepColor        = '#111111';
+let sepOpacity      = 35;
+let sepWidth        = 60;
 
-// drag state
-let dragTarget = null;
-let dragOffX = 0, dragOffY = 0;
-let pointerMoved = false;
+// bg image state
+let bgImgScale    = 100;
+let bgImgX        = 0;
+let bgImgY        = 0;
+let bgImgLoaded   = false;
+let bgImgNatW     = 0;
+let bgImgNatH     = 0;
+let bgEdgeShadow  = true;   // premium edge shadow ON by default
+let shadowIntensity = 60;   // 10-100
 
-/* ════════════════════════════════════
-   VIRAL IG BACKGROUNDS
-════════════════════════════════════ */
-const BG_PRESETS = [
-  {
-    id:'midnight-rose',
-    label:'Midnight Rose',
-    bg:'linear-gradient(160deg,#0f0c29,#302b63,#24243e)',
-    textColor:'#f9e4ff',
-    shadow:'glow',
-  },
-  {
-    id:'golden-hour',
-    label:'Golden Hour',
-    bg:'linear-gradient(135deg,#1a0533,#6b1a3a,#e85d04,#f8a11a)',
-    textColor:'#fff8e1',
-    shadow:'soft',
-  },
-  {
-    id:'aurora',
-    label:'Aurora',
-    bg:'linear-gradient(160deg,#020024,#090979,#00d4ff)',
-    textColor:'#e0f7ff',
-    shadow:'glow',
-  },
-  {
-    id:'blush-nude',
-    label:'Blush Nude',
-    bg:'linear-gradient(135deg,#f5e6d8,#e8c5b0,#d4a690)',
-    textColor:'#3d1f14',
-    shadow:'none',
-  },
-  {
-    id:'forest-mist',
-    label:'Forest Mist',
-    bg:'linear-gradient(160deg,#0a1628,#1a3a2a,#2d5a27)',
-    textColor:'#c8f5c8',
-    shadow:'soft',
-  },
-  {
-    id:'neon-dark',
-    label:'Neon Dark',
-    bg:'linear-gradient(135deg,#0d0d0d,#0d0d1a,#1a0d2e)',
-    textColor:'#f0abfc',
-    shadow:'glow',
-  },
-  {
-    id:'desert-sand',
-    label:'Desert Sand',
-    bg:'linear-gradient(160deg,#2d1b00,#8b4513,#d4870a,#f0c060)',
-    textColor:'#fff3d0',
-    shadow:'soft',
-  },
-  {
-    id:'ocean-deep',
-    label:'Ocean Deep',
-    bg:'linear-gradient(160deg,#000428,#004e92,#009ffd)',
-    textColor:'#e0f4ff',
-    shadow:'glow',
-  },
-  {
-    id:'rose-gold',
-    label:'Rose Gold',
-    bg:'linear-gradient(135deg,#b5838d,#e5989b,#ffb4a2,#ffcdb2)',
-    textColor:'#4a1728',
-    shadow:'none',
-  },
-  {
-    id:'purple-haze',
-    label:'Purple Haze',
-    bg:'linear-gradient(160deg,#240046,#3c096c,#7b2d8b,#c77dff)',
-    textColor:'#ffe8ff',
-    shadow:'glow',
-  },
-  {
-    id:'ivory-classic',
-    label:'Ivory Classic',
-    bg:'linear-gradient(160deg,#f5f0e8,#ede8dc,#ddd8cc)',
-    textColor:'#2c1810',
-    shadow:'none',
-  },
-  {
-    id:'charcoal-ink',
-    label:'Charcoal Ink',
-    bg:'linear-gradient(160deg,#1a1a1a,#2d2d2d,#1a1a1a)',
-    textColor:'#f0e6d0',
-    shadow:'soft',
-  },
-  {
-    id:'cherry-blossom',
-    label:'Cherry Blossom',
-    bg:'linear-gradient(135deg,#2d0035,#8b0045,#ff6b9d,#ffd6e8)',
-    textColor:'#fff0f5',
-    shadow:'soft',
-  },
-  {
-    id:'teal-dream',
-    label:'Teal Dream',
-    bg:'linear-gradient(160deg,#0d2137,#0f4c61,#1a8c8c,#48c9c9)',
-    textColor:'#e0fff8',
-    shadow:'glow',
-  },
-  {
-    id:'moody-grey',
-    label:'Moody Grey',
-    bg:'linear-gradient(160deg,#1c1c1e,#2c2c2e,#3a3a3c)',
-    textColor:'#f5f5f7',
-    shadow:'soft',
-  },
-  {
-    id:'saffron-sunset',
-    label:'Saffron Sunset',
-    bg:'linear-gradient(135deg,#1a0010,#4a0020,#a0003a,#ff6600,#ffb300)',
-    textColor:'#fff3e0',
-    shadow:'soft',
-  },
-];
+// drag shared
+let activeDrag    = null;
+let dragOffX      = 0, dragOffY = 0;
 
-/* ════════════════════════════════════
+// ══ FIX: track pointer movement per drag gesture only ══
+let dragMoved     = false;  // true only while a drag is active and pointer has moved
+let wzBarActive   = false;  // true when pointer is down inside word-zoom-bar
+
+/* ══════════════════════════════════════════
    INIT
-════════════════════════════════════ */
+══════════════════════════════════════════ */
 window.addEventListener('DOMContentLoaded', () => {
+  setCardSize('portrait');
   buildBgSwatches();
-  setCardSize('post');
-  // Apply first bg preset
-  applyBgPreset(BG_PRESETS[0]);
-
   initDrag();
   initWordZoom();
 
@@ -1084,169 +956,78 @@ window.addEventListener('DOMContentLoaded', () => {
     wordOverrides = {};
     lineOverrides = {};
     renderShayari();
-    buildLineEditor();
   });
 
-  // Default text shadow: soft
-  const shadowBtns = document.querySelectorAll('#shadow-row .align-btn');
-  shadowBtns.forEach(b => b.classList.remove('active'));
-  shadowBtns[1].classList.add('active');
-  applyTextShadow('soft');
-
-  // Default text color: white
-  document.getElementById('shayari-text').style.color = '#ffffff';
-  document.getElementById('text-color').value = '#ffffff';
-
-  renderShayari();
-  buildLineEditor();
-  updateGuidePositions();
+  // Initialise shadow overlay state
+  document.getElementById('bg-img-shadow-toggle').classList.add('on');
+  updateEdgeShadowOverlay();
 });
 
-/* ════════════════════════════════════
-   BG SWATCHES
-════════════════════════════════════ */
-function buildBgSwatches() {
-  const list = document.getElementById('bg-swatches');
-  list.innerHTML = '';
-  BG_PRESETS.forEach((p, i) => {
-    const sw = document.createElement('div');
-    sw.className = 'bg-swatch' + (i === 0 ? ' active' : '');
-    sw.style.background = p.bg;
-    sw.dataset.idx = i;
-    sw.title = p.label;
-    sw.innerHTML = `<span class="bg-swatch-label">${p.label.split(' ')[0]}</span>`;
-    sw.addEventListener('click', () => {
-      document.querySelectorAll('.bg-swatch').forEach(s => s.classList.remove('active'));
-      sw.classList.add('active');
-      applyBgPreset(p);
-    });
-    list.appendChild(sw);
-  });
+/* ══════════════════════════════════════════
+   COLLAPSIBLE PANELS
+══════════════════════════════════════════ */
+function togglePanel(id) {
+  document.getElementById(id).classList.toggle('open');
 }
 
-function applyBgPreset(p) {
-  document.getElementById('bg-layer').style.background = p.bg;
-  document.getElementById('bg-image-layer').style.opacity = '0';
-  // Apply matching text color
-  const tc = p.textColor;
-  document.getElementById('shayari-text').style.color = tc;
-  document.getElementById('text-color').value = tc;
-  applyTextShadow(p.shadow || 'soft');
-  // update shadow btn UI
-  const map = {none:0,soft:1,hard:2,glow:3};
-  const btns = document.querySelectorAll('#shadow-row .align-btn');
-  btns.forEach(b => b.classList.remove('active'));
-  if (btns[map[p.shadow || 'soft']]) btns[map[p.shadow || 'soft']].classList.add('active');
-}
-
-function setBgSolid(val) {
-  document.querySelectorAll('.bg-swatch').forEach(s => s.classList.remove('active'));
-  document.getElementById('bg-layer').style.background = val;
-  document.getElementById('bg-image-layer').style.opacity = '0';
-}
-
-function loadBgImage(inp) {
-  const file = inp.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    const layer = document.getElementById('bg-image-layer');
-    layer.style.backgroundImage = `url(${e.target.result})`;
-    layer.style.opacity = (document.getElementById('bg-opacity-range').value / 100).toString();
-  };
-  reader.readAsDataURL(file);
-}
-
-function setBgOpacity(val) {
-  document.getElementById('bg-opacity-val').textContent = val;
-  document.getElementById('bg-image-layer').style.opacity = val / 100;
-}
-
-function setOverlay(val) {
-  document.getElementById('overlay-val').textContent = val;
-  document.getElementById('overlay-layer').style.background = `rgba(0,0,0,${val/100})`;
-}
-
-/* ════════════════════════════════════
+/* ══════════════════════════════════════════
    CARD SIZE
-════════════════════════════════════ */
+══════════════════════════════════════════ */
 function setCardSize(size) {
-  currentSize = size;
   const { w, h } = SIZES[size];
   const card = document.getElementById('card');
-  card.style.width = w + 'px';
+  card.style.width  = w + 'px';
   card.style.height = h + 'px';
   document.querySelectorAll('.size-btn').forEach(b =>
     b.classList.toggle('active', b.dataset.size === size));
-
-  // Re-center text
-  if (!textPosManual) {
-    centerShayari();
-  }
-
-  updateGuidePositions();
-  clampChip(w, h);
+  updateGuideline();
+  clampEl(document.getElementById('shayari-display'), w, h);
+  clampEl(document.getElementById('profile-chip'), w, h);
+  if (bgImgLoaded) applyBgImgTransform();
 }
 
-function clampChip(cw, ch) {
-  const chip = document.getElementById('profile-chip');
-  const t = parseInt(chip.style.top) || 20;
-  const l = parseInt(chip.style.left) || 20;
-  chip.style.top = Math.min(Math.max(t, 0), ch - 40) + 'px';
-  chip.style.left = Math.min(Math.max(l, 0), cw - 40) + 'px';
+function clampEl(el, cw, ch) {
+  const t = Math.min(Math.max(parseInt(el.style.top)  || 0, 0), ch - 40);
+  const l = Math.min(Math.max(parseInt(el.style.left) || 0, 0), cw - 40);
+  el.style.top  = t + 'px';
+  el.style.left = l + 'px';
 }
 
-/* ════════════════════════════════════
+/* ══════════════════════════════════════════
    GUIDELINE
-════════════════════════════════════ */
+══════════════════════════════════════════ */
 function toggleGuideline() {
   guidelineOn = !guidelineOn;
-  const wrap = document.getElementById('guideline-toggle-wrap');
-  wrap.classList.toggle('active', guidelineOn);
-  document.getElementById('guideline-toggle-label').textContent = guidelineOn
-    ? '📐 Grid & Center Guide (ON)'
-    : '📐 Grid & Center Guide';
+  document.getElementById('guideline-toggle-wrap').classList.toggle('active', guidelineOn);
+  updateGuideline();
+}
+function updateGuideline() {
+  const g = document.getElementById('guideline-45');
+  if (!guidelineOn) { g.style.display = 'none'; return; }
   const card = document.getElementById('card');
-  card.classList.toggle('guides-hidden', !guidelineOn);
-  card.classList.toggle('guides-visible', guidelineOn);
-  updateGuidePositions();
+  const cw = parseInt(card.style.width), ch = parseInt(card.style.height);
+  g.style.display = 'block';
+  g.style.width   = cw + 'px';
+  g.style.height  = Math.min(cw * 1.25, ch) + 'px';
 }
 
-function updateGuidePositions() {
-  const card = document.getElementById('card');
-  const cw = parseInt(card.style.width) || 400;
-  const ch = parseInt(card.style.height) || 400;
-
-  // Center lines
-  document.getElementById('guide-h-line').style.top = (ch/2) + 'px';
-  document.getElementById('guide-v-line').style.left = (cw/2) + 'px';
-
-  // Rule of thirds
-  document.getElementById('guide-third-h1').style.top = Math.round(ch/3) + 'px';
-  document.getElementById('guide-third-h2').style.top = Math.round(ch*2/3) + 'px';
-  document.getElementById('guide-third-v1').style.left = Math.round(cw/3) + 'px';
-  document.getElementById('guide-third-v2').style.left = Math.round(cw*2/3) + 'px';
-
-  // Center badge
-  document.getElementById('center-badge').style.top = (ch/2 - 12) + 'px';
-}
-
-/* ════════════════════════════════════
+/* ══════════════════════════════════════════
    RENDER SHAYARI
-════════════════════════════════════ */
+══════════════════════════════════════════ */
 function renderShayari() {
-  const raw = document.getElementById('shayari-input').value;
+  const raw   = document.getElementById('shayari-input').value;
   const lines = raw.split('\n');
-  const st = document.getElementById('shayari-text');
+  const st    = document.getElementById('shayari-text');
   st.innerHTML = '';
 
   lines.forEach((line, li) => {
     const lineSpan = document.createElement('span');
     lineSpan.className = 'line-span';
+
     const lo = lineOverrides[li];
     if (lo) {
-      if (lo.color) lineSpan.style.color = lo.color;
-      if (lo.size) lineSpan.style.fontSize = lo.size + 'px';
+      if (lo.color) lineSpan.style.color    = lo.color;
+      if (lo.size)  lineSpan.style.fontSize = lo.size + 'px';
     }
 
     if (!line.trim()) {
@@ -1257,18 +1038,21 @@ function renderShayari() {
 
     let wi = 0;
     line.split(/(\s+)/).forEach(part => {
-      if (/^\s+$/.test(part)) { lineSpan.appendChild(document.createTextNode(part)); return; }
+      if (/^\s+$/.test(part)) {
+        lineSpan.appendChild(document.createTextNode(part));
+        return;
+      }
       const wk = `${li}-${wi}`;
       const ws = document.createElement('span');
-      ws.className = 'word-span';
-      ws.dataset.wk = wk;
-      ws.textContent = part;
+      ws.className     = 'word-span';
+      ws.dataset.wk    = wk;
+      ws.textContent   = part;
       if (selectedWordKey === wk) ws.classList.add('selected-word');
       const ov = wordOverrides[wk];
       if (ov) {
-        if (ov.size) ws.style.fontSize = ov.size + 'px';
-        if (ov.color) ws.style.color = ov.color;
-        if (ov.font) ws.style.fontFamily = ov.font;
+        if (ov.size)  ws.style.fontSize   = ov.size + 'px';
+        if (ov.color) ws.style.color      = ov.color;
+        if (ov.font)  ws.style.fontFamily = ov.font;
       }
       lineSpan.appendChild(ws);
       wi++;
@@ -1276,574 +1060,726 @@ function renderShayari() {
 
     st.appendChild(lineSpan);
 
-    // Separator between lines
-    if (sepStyle !== 'none' && li < lines.length - 1 && line.trim()) {
-      const sep = document.createElement('span');
-      sep.style.setProperty('--sep-color', sepColor);
-      sep.style.setProperty('--sep-opacity', sepOpacity / 100);
-      sep.style.setProperty('--sep-thickness', '1px');
-
+    if (sepStyle !== 'none' && li < lines.length - 1 && lines[li+1]?.trim()) {
       if (sepStyle === 'line') {
-        sep.className = 'line-separator';
-        sep.style.width = sepWidth + '%';
-        st.appendChild(sep);
+        const hr = document.createElement('span');
+        hr.className = 'line-separator';
+        hr.style.setProperty('--sep-color',   sepColor);
+        hr.style.setProperty('--sep-opacity', sepOpacity / 100);
+        hr.style.setProperty('--sep-thickness', '1px');
+        hr.style.width = sepWidth + '%';
+        st.appendChild(hr);
       } else {
         const ornament = document.createElement('span');
         ornament.className = 'line-span';
-        ornament.style.textAlign = 'center';
-        ornament.style.display = 'block';
+        ornament.style.color   = sepColor;
         ornament.style.opacity = sepOpacity / 100;
-        ornament.style.color = sepColor;
-        ornament.style.fontSize = '12px';
-        ornament.style.lineHeight = '1.2';
-        ornament.style.letterSpacing = '6px';
+        ornament.style.fontSize = '14px';
+        ornament.style.width   = '100%';
+        ornament.style.textAlign = 'center';
         ornament.textContent = sepStyle === 'dots' ? '· · ·' : '◆';
         st.appendChild(ornament);
       }
     }
   });
 
-  if (!textPosManual) centerShayari();
+  buildLineEditor(lines);
 }
 
-/* ════════════════════════════════════
-   CENTER SHAYARI (default for IG/FB)
-════════════════════════════════════ */
-function centerShayari() {
-  const disp = document.getElementById('shayari-display');
-  disp.style.top = '50%';
-  disp.style.left = '50%';
-  disp.style.transform = 'translate(-50%, -50%)';
-  disp.classList.remove('manually-positioned');
-}
-
-/* ════════════════════════════════════
-   TEXT STYLE
-════════════════════════════════════ */
-function setFontSize(val) {
-  document.getElementById('font-size-val').textContent = val;
-  document.getElementById('shayari-text').style.fontSize = val + 'px';
-}
-function setLineHeight(val) {
-  document.getElementById('line-height-val').textContent = val;
-  document.getElementById('shayari-text').style.lineHeight = val;
-}
-function setLetterSpacing(val) {
-  document.getElementById('letter-spacing-val').textContent = val;
-  document.getElementById('shayari-text').style.letterSpacing = val + 'px';
-}
-function setWeight(val, btn) {
-  document.querySelectorAll('#weight-row .align-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('shayari-text').style.fontWeight = val;
-}
-function setAlign(val, btn) {
-  document.querySelectorAll('#align-row .align-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('shayari-text').style.textAlign = val;
-  document.querySelectorAll('#shayari-text .line-span').forEach(ls => ls.style.textAlign = val);
-}
-function setTextColor(val) {
-  document.getElementById('shayari-text').style.color = val;
-  document.querySelectorAll('#sep-color').forEach(i => {}); // keep sep separate
-}
-function setTextShadow(type, btn) {
-  if (btn) {
-    document.querySelectorAll('#shadow-row .align-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-  }
-  applyTextShadow(type);
-}
-function applyTextShadow(type) {
-  const st = document.getElementById('shayari-text');
-  const shadows = {
-    none: 'none',
-    soft: '0 2px 12px rgba(0,0,0,.55)',
-    hard: '2px 3px 0 rgba(0,0,0,.8)',
-    glow: '0 0 20px currentColor, 0 0 40px rgba(255,255,255,.15)',
-  };
-  st.style.textShadow = shadows[type] || 'none';
-}
-function setSepStyle(type, btn) {
-  document.querySelectorAll('#sep-style-row .align-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  sepStyle = type;
-  document.getElementById('sep-options').style.display = type === 'none' ? 'none' : 'block';
-  renderShayari();
-}
-function setSepColor(val) { sepColor = val; renderShayari(); }
-function setSepOpacity(val) {
-  document.getElementById('sep-opacity-val').textContent = val;
-  sepOpacity = parseInt(val); renderShayari();
-}
-function setSepWidth(val) {
-  document.getElementById('sep-width-val').textContent = val;
-  sepWidth = parseInt(val); renderShayari();
-}
-
-/* ════════════════════════════════════
-   TEXT POSITION
-════════════════════════════════════ */
-function setTextPos(pos) {
-  const card = document.getElementById('card');
-  const cw = parseInt(card.style.width);
-  const ch = parseInt(card.style.height);
-  const disp = document.getElementById('shayari-display');
-  const dw = disp.offsetWidth || cw * 0.88;
-  const dh = disp.offsetHeight || 120;
-
-  disp.classList.add('manually-positioned');
-  disp.style.transform = 'none';
-  textPosManual = true;
-
-  const pad = 30;
-  const positions = {
-    'top-left':    { top: pad, left: pad },
-    'top-center':  { top: pad, left: (cw - dw) / 2 },
-    'top-right':   { top: pad, left: cw - dw - pad },
-    'mid-left':    { top: (ch - dh) / 2, left: pad },
-    'mid-center':  null,
-    'mid-right':   { top: (ch - dh) / 2, left: cw - dw - pad },
-    'bot-left':    { top: ch - dh - pad, left: pad },
-    'bot-center':  { top: ch - dh - pad, left: (cw - dw) / 2 },
-    'bot-right':   { top: ch - dh - pad, left: cw - dw - pad },
-  };
-
-  if (pos === 'mid-center') {
-    textPosManual = false;
-    centerShayari();
-    return;
-  }
-
-  const p = positions[pos];
-  if (p) {
-    disp.style.top = Math.max(0, p.top) + 'px';
-    disp.style.left = Math.max(0, p.left) + 'px';
-  }
-}
-
-function setTextWidth(val) {
-  document.getElementById('text-width-val').textContent = val;
-  document.getElementById('shayari-display').style.width = val + '%';
-  if (!textPosManual) centerShayari();
-}
-
-/* ════════════════════════════════════
-   PER-LINE EDITOR
-════════════════════════════════════ */
-function buildLineEditor() {
-  const raw = document.getElementById('shayari-input').value;
-  const lines = raw.split('\n').filter(l => l.trim());
+/* ══════════════════════════════════════════
+   LINE EDITOR
+══════════════════════════════════════════ */
+function buildLineEditor(lines) {
   const list = document.getElementById('line-editor-list');
   list.innerHTML = '';
-
   lines.forEach((line, li) => {
+    if (!line.trim()) return;
+    const lo  = lineOverrides[li] || {};
     const row = document.createElement('div');
-    row.className = 'line-row' + (lineOverrides[li] ? ' has-override' : '');
-    row.id = `line-row-${li}`;
+    row.className = 'line-row' + (lo.color || lo.size ? ' has-override' : '');
 
-    const lo = lineOverrides[li] || {};
-    const currentColor = lo.color || '#ffffff';
-    const currentSize = lo.size || (parseInt(document.getElementById('shayari-text').style.fontSize) || 23);
+    const curColor = lo.color || '#111111';
+    const curSize  = lo.size  || (parseInt(document.getElementById('shayari-text').style.fontSize) || 23);
 
     row.innerHTML = `
       <div class="line-row-top">
-        <span class="line-num">Line ${li+1}</span>
-        <span class="line-preview">${line}</span>
+        <span class="line-num">L${li+1}</span>
+        <span class="line-preview">${line.slice(0,30)}${line.length>30?'…':''}</span>
         <div class="line-color-wrap" title="Line colour">
-          <div class="line-color-swatch" id="lcs-${li}" style="background:${currentColor};"></div>
-          <input type="color" value="${currentColor}" onchange="setLineColor(${li},this.value)">
+          <div class="line-color-swatch" style="background:${curColor}"></div>
+          <input type="color" value="${curColor}" data-li="${li}" class="line-color-inp">
         </div>
-        <button class="reset-line-btn" onclick="resetLine(${li})">Reset</button>
+        <button class="reset-line-btn" data-li="${li}">Reset</button>
       </div>
       <div class="line-row-bottom">
         <span class="line-size-label">Size</span>
-        <input type="range" class="line-size-range" min="10" max="60" value="${currentSize}"
-          oninput="setLineSize(${li},this.value)">
-        <span class="line-size-val" id="lsv-${li}">${currentSize}px</span>
+        <input type="range" class="line-size-range" min="10" max="70" value="${curSize}" data-li="${li}">
+        <span class="line-size-val">${curSize}px</span>
       </div>`;
 
+    row.querySelector('.line-color-inp').addEventListener('input', function() {
+      const i = +this.dataset.li;
+      lineOverrides[i] = lineOverrides[i] || {};
+      lineOverrides[i].color = this.value;
+      this.previousElementSibling.style.background = this.value;
+      renderShayari();
+    });
+    row.querySelector('.line-size-range').addEventListener('input', function() {
+      const i = +this.dataset.li;
+      lineOverrides[i] = lineOverrides[i] || {};
+      lineOverrides[i].size = +this.value;
+      this.nextElementSibling.textContent = this.value + 'px';
+      renderShayari();
+    });
+    row.querySelector('.reset-line-btn').addEventListener('click', function() {
+      delete lineOverrides[+this.dataset.li];
+      renderShayari();
+    });
     list.appendChild(row);
   });
 }
 
-function setLineColor(li, val) {
-  if (!lineOverrides[li]) lineOverrides[li] = {};
-  lineOverrides[li].color = val;
-  document.getElementById('lcs-' + li).style.background = val;
-  document.getElementById('line-row-' + li).classList.add('has-override');
-  renderShayari();
-}
-function setLineSize(li, val) {
-  if (!lineOverrides[li]) lineOverrides[li] = {};
-  lineOverrides[li].size = parseInt(val);
-  const el = document.getElementById('lsv-' + li);
-  if (el) el.textContent = val + 'px';
-  document.getElementById('line-row-' + li).classList.add('has-override');
-  renderShayari();
-}
-function resetLine(li) {
-  delete lineOverrides[li];
-  buildLineEditor();
-  renderShayari();
+/* ══════════════════════════════════════════
+   DRAG — chip, text, bg-image
+══════════════════════════════════════════ */
+function initDrag() {
+  const card     = document.getElementById('card');
+  const chip     = document.getElementById('profile-chip');
+  const shayDisp = document.getElementById('shayari-display');
+  const bgImg    = document.getElementById('bg-img-el');
+
+  function onDown(e, target) {
+    if (e.button !== undefined && e.button !== 0) return;
+    const isPen   = e.pointerType === 'pen';
+    const isTouch = e.pointerType === 'touch';
+    if (target === 'text' && !isTouch && !isPen) return;
+
+    e.preventDefault();
+    activeDrag = target;
+    dragMoved  = false;
+
+    const cx = e.clientX ?? e.touches?.[0]?.clientX;
+    const cy = e.clientY ?? e.touches?.[0]?.clientY;
+
+    if (target === 'chip') {
+      dragOffX = cx - chip.getBoundingClientRect().left;
+      dragOffY = cy - chip.getBoundingClientRect().top;
+    } else if (target === 'text') {
+      dragOffX = cx - shayDisp.getBoundingClientRect().left;
+      dragOffY = cy - shayDisp.getBoundingClientRect().top;
+      shayDisp.classList.add('dragging');
+    } else if (target === 'bgimg') {
+      dragOffX = cx - bgImg.getBoundingClientRect().left;
+      dragOffY = cy - bgImg.getBoundingClientRect().top;
+      bgImg.classList.add('dragging');
+    }
+  }
+
+  function onMove(e) {
+    if (!activeDrag) return;
+    const cx = e.clientX ?? e.touches?.[0]?.clientX;
+    const cy = e.clientY ?? e.touches?.[0]?.clientY;
+    dragMoved = true;
+
+    const cardRect = card.getBoundingClientRect();
+
+    if (activeDrag === 'chip') {
+      let x = cx - cardRect.left - dragOffX;
+      let y = cy - cardRect.top  - dragOffY;
+      x = Math.max(0, Math.min(x, cardRect.width  - chip.offsetWidth));
+      y = Math.max(0, Math.min(y, cardRect.height - chip.offsetHeight));
+      chip.style.left = x + 'px';
+      chip.style.top  = y + 'px';
+
+    } else if (activeDrag === 'text') {
+      let x = cx - cardRect.left - dragOffX;
+      let y = cy - cardRect.top  - dragOffY;
+      x = Math.max(0, Math.min(x, cardRect.width  - shayDisp.offsetWidth));
+      y = Math.max(0, Math.min(y, cardRect.height - 20));
+      shayDisp.style.left = x + 'px';
+      shayDisp.style.top  = y + 'px';
+      shayDisp.style.right = 'auto';
+
+    } else if (activeDrag === 'bgimg') {
+      bgImgX = cx - cardRect.left - dragOffX;
+      bgImgY = cy - cardRect.top  - dragOffY;
+      applyBgImgTransform();
+    }
+  }
+
+  function onUp() {
+    if (activeDrag === 'text') shayDisp.classList.remove('dragging');
+    if (activeDrag === 'bgimg') bgImg.classList.remove('dragging');
+    activeDrag = null;
+  }
+
+  chip.addEventListener('pointerdown', e => onDown(e, 'chip'));
+  shayDisp.addEventListener('pointerdown', e => {
+    if (e.pointerType === 'touch' || e.pointerType === 'pen') onDown(e, 'text');
+  });
+  bgImg.addEventListener('pointerdown', e => {
+    e.stopPropagation();
+    onDown(e, 'bgimg');
+  });
+
+  window.addEventListener('pointermove', onMove);
+  window.addEventListener('pointerup',   onUp);
+  window.addEventListener('touchmove', e => {
+    if (activeDrag) e.preventDefault();
+  }, { passive: false });
 }
 
-/* ════════════════════════════════════
-   WORD ZOOM
-════════════════════════════════════ */
+/* ══════════════════════════════════════════
+   WORD ZOOM — FIXED
+   Root cause: pointerdown on wz-bar buttons bubbled up, set
+   dragMoved=true on the NEXT interaction, which caused the
+   card click handler to think a drag happened and bail out.
+
+   Fix: use a dedicated wzBarActive flag. When pointer goes
+   down inside the bar we set wzBarActive=true. The card's
+   click handler checks this flag and skips dismiss/select.
+══════════════════════════════════════════ */
 function initWordZoom() {
-  const card = document.getElementById('card');
   const bar = document.getElementById('word-zoom-bar');
 
-  card.addEventListener('click', e => {
+  // ── Mark bar as active on ANY pointer/mouse down inside it ──
+  bar.addEventListener('pointerdown', e => {
+    wzBarActive = true;
+    e.stopPropagation();
+  });
+  bar.addEventListener('mousedown', e => {
+    wzBarActive = true;
+    e.stopPropagation();
+  });
+  // Also stop click from bubbling so card's click listener never fires
+  bar.addEventListener('click', e => {
+    e.stopPropagation();
+  });
+
+  // Reset wzBarActive after any pointer/mouse up on the whole window
+  window.addEventListener('pointerup', () => {
+    // Small timeout so the card's click handler (which fires after pointerup) sees the flag
+    setTimeout(() => { wzBarActive = false; }, 50);
+  });
+  window.addEventListener('mouseup', () => {
+    setTimeout(() => { wzBarActive = false; }, 50);
+  });
+
+  // ── Card click: word select OR dismiss ──
+  document.getElementById('card').addEventListener('click', e => {
+    // If interaction started inside the word-zoom-bar, do nothing
+    if (wzBarActive) return;
+
     const ws = e.target.closest('.word-span');
-    if (!ws) { closeWordBar(); return; }
+    if (!ws) {
+      // Only dismiss if we didn't just finish a drag
+      if (!dragMoved) dismissWordZoom();
+      dragMoved = false;
+      return;
+    }
+    if (dragMoved) { dragMoved = false; return; }
 
     selectedWordKey = ws.dataset.wk;
     renderShayari();
-    showWordBar(ws);
+    showWordZoom(ws);
   });
 
-  document.getElementById('wz-minus').onclick = () => adjustWord(-1);
-  document.getElementById('wz-plus').onclick  = () => adjustWord(+1);
+  // − + buttons
+  document.getElementById('wz-minus').addEventListener('click', e => {
+    e.stopPropagation();
+    adjustWordSize(-1);
+  });
+  document.getElementById('wz-plus').addEventListener('click', e => {
+    e.stopPropagation();
+    adjustWordSize(+1);
+  });
 
-  document.getElementById('wz-color-input').addEventListener('input', e => {
+  // colour
+  document.getElementById('wz-color-input').addEventListener('input', function() {
     if (!selectedWordKey) return;
-    if (!wordOverrides[selectedWordKey]) wordOverrides[selectedWordKey] = {};
-    wordOverrides[selectedWordKey].color = e.target.value;
-    document.getElementById('wz-color-swatch').style.background = e.target.value;
-    renderShayari(); showWordBarForKey();
+    wordOverrides[selectedWordKey] = wordOverrides[selectedWordKey] || {};
+    wordOverrides[selectedWordKey].color = this.value;
+    document.getElementById('wz-color-swatch').style.background = this.value;
+    renderShayari();
+    repositionWordZoom();
   });
 
-  document.getElementById('wz-font-select').addEventListener('change', e => {
+  // font
+  document.getElementById('wz-font-select').addEventListener('change', function() {
     if (!selectedWordKey) return;
-    if (!wordOverrides[selectedWordKey]) wordOverrides[selectedWordKey] = {};
-    wordOverrides[selectedWordKey].font = e.target.value || null;
-    renderShayari(); showWordBarForKey();
+    wordOverrides[selectedWordKey] = wordOverrides[selectedWordKey] || {};
+    wordOverrides[selectedWordKey].font = this.value || null;
+    if (!this.value) delete wordOverrides[selectedWordKey].font;
+    renderShayari();
+    repositionWordZoom();
   });
 
-  document.getElementById('wz-reset-btn').onclick = () => {
+  // reset
+  document.getElementById('wz-reset-btn').addEventListener('click', e => {
+    e.stopPropagation();
     if (!selectedWordKey) return;
     delete wordOverrides[selectedWordKey];
-    selectedWordKey = null;
     renderShayari();
-    bar.style.display = 'none';
-  };
+    repositionWordZoom();
+  });
 }
 
-function getCurrentWordSize() {
-  if (!selectedWordKey) return 23;
-  const ov = wordOverrides[selectedWordKey];
-  if (ov && ov.size) return ov.size;
-  return parseInt(document.getElementById('shayari-text').style.fontSize) || 23;
-}
-
-function adjustWord(delta) {
-  if (!selectedWordKey) return;
-  if (!wordOverrides[selectedWordKey]) wordOverrides[selectedWordKey] = {};
-  const newSize = Math.min(80, Math.max(8, getCurrentWordSize() + delta));
-  wordOverrides[selectedWordKey].size = newSize;
-  document.getElementById('wz-size-display').textContent = newSize + 'px';
-  renderShayari(); showWordBarForKey();
-}
-
-function showWordBar(ws) {
+function showWordZoom(ws) {
   const bar = document.getElementById('word-zoom-bar');
-  const ov = wordOverrides[selectedWordKey] || {};
-  const sz = ov.size || (parseInt(document.getElementById('shayari-text').style.fontSize) || 23);
-  const col = ov.color || document.getElementById('shayari-text').style.color || '#ffffff';
-  const font = ov.font || '';
-
+  bar.style.display = 'flex';
+  const ov  = wordOverrides[selectedWordKey] || {};
+  const globalSize = parseInt(document.getElementById('shayari-text').style.fontSize) || 23;
+  const sz  = ov.size  || globalSize;
+  const col = ov.color || document.getElementById('text-color').value;
   document.getElementById('wz-size-display').textContent = sz + 'px';
   document.getElementById('wz-color-swatch').style.background = col;
-  document.getElementById('wz-color-input').value = col.startsWith('#') ? col : '#ffffff';
-  document.getElementById('wz-font-select').value = font;
-
-  const rect = ws.getBoundingClientRect();
-  const cardRect = document.getElementById('card').getBoundingClientRect();
-  const relX = rect.left - cardRect.left + rect.width / 2;
-  const relY = rect.top - cardRect.top;
-
-  bar.style.display = 'flex';
-  bar.style.left = Math.min(Math.max(relX, 130), cardRect.width - 10) + 'px';
-  bar.style.top = (relY - 80) + 'px';
+  document.getElementById('wz-color-input').value = col;
+  const fontSel = document.getElementById('wz-font-select');
+  fontSel.value = ov.font || '';
+  repositionWordZoom();
 }
 
-function showWordBarForKey() {
+function repositionWordZoom() {
   if (!selectedWordKey) return;
-  const ws = document.querySelector(`[data-wk="${selectedWordKey}"]`);
-  if (ws) showWordBar(ws);
+  const card = document.getElementById('card');
+  const bar  = document.getElementById('word-zoom-bar');
+  const ws   = document.querySelector(`.word-span[data-wk="${selectedWordKey}"]`);
+  if (!ws) return;
+  const wr   = ws.getBoundingClientRect();
+  const cr   = card.getBoundingClientRect();
+  let top    = wr.bottom - cr.top + 6;
+  let left   = wr.left   - cr.left + wr.width / 2;
+  if (top + 80 > parseInt(card.style.height)) top = wr.top - cr.top - 90;
+  bar.style.top  = top  + 'px';
+  bar.style.left = left + 'px';
 }
 
-function closeWordBar() {
+function dismissWordZoom() {
   selectedWordKey = null;
   document.getElementById('word-zoom-bar').style.display = 'none';
-  document.querySelectorAll('.word-span.selected-word').forEach(w => w.classList.remove('selected-word'));
+  renderShayari();
 }
 
-/* ════════════════════════════════════
-   DRAG
-════════════════════════════════════ */
-function initDrag() {
-  const card = document.getElementById('card');
-
-  function onPointerDown(e) {
-    const chip = document.getElementById('profile-chip');
-    const disp = document.getElementById('shayari-display');
-    const isChip = e.target === chip || chip.contains(e.target);
-    const isDisp = (e.target === disp || disp.contains(e.target)) && !e.target.closest('.word-span');
-
-    if (!isChip && !isDisp) return;
-    if (e.target.closest('.word-span')) return;
-
-    dragTarget = isChip ? chip : disp;
-    pointerMoved = false;
-
-    const rect = dragTarget.getBoundingClientRect();
-    const cardRect = card.getBoundingClientRect();
-
-    if (dragTarget === disp && !textPosManual) {
-      // switch from centered to absolute
-      const cw = parseInt(card.style.width);
-      const ch = parseInt(card.style.height);
-      const dw = disp.offsetWidth;
-      const dh = disp.offsetHeight;
-      disp.style.top = ((ch - dh) / 2) + 'px';
-      disp.style.left = ((cw - dw) / 2) + 'px';
-      disp.style.transform = 'none';
-      disp.classList.add('manually-positioned');
-      textPosManual = true;
-    }
-
-    dragOffX = e.clientX - rect.left + cardRect.left;
-    dragOffY = e.clientY - rect.top + cardRect.top;
-
-    dragTarget.classList.add('dragging');
-    e.preventDefault();
-
-    window.addEventListener('pointermove', onPointerMove);
-    window.addEventListener('pointerup', onPointerUp);
-  }
-
-  function onPointerMove(e) {
-    if (!dragTarget) return;
-    pointerMoved = true;
-    const cardRect = card.getBoundingClientRect();
-    const cw = parseInt(card.style.width);
-    const ch = parseInt(card.style.height);
-    let newLeft = e.clientX - cardRect.left - dragOffX + parseInt(dragTarget.getBoundingClientRect().left - cardRect.left) + dragOffX - (parseInt(dragTarget.getBoundingClientRect().left - cardRect.left));
-    let newTop  = e.clientY - cardRect.top  - dragOffY + parseInt(dragTarget.getBoundingClientRect().top - cardRect.top) + dragOffY - (parseInt(dragTarget.getBoundingClientRect().top - cardRect.top));
-
-    // Simpler calculation
-    newLeft = e.clientX - cardRect.left - dragOffX + parseInt(dragTarget.style.left || 0) + (dragTarget.getBoundingClientRect().left - cardRect.left - parseInt(dragTarget.style.left || 0));
-    newTop  = e.clientY - cardRect.top  - dragOffY + parseInt(dragTarget.style.top || 0) + (dragTarget.getBoundingClientRect().top - cardRect.top - parseInt(dragTarget.style.top || 0));
-
-    newLeft = e.clientX - cardRect.left - (dragOffX - parseInt(dragTarget.style.left || 0) - (dragTarget.getBoundingClientRect().left - cardRect.left - parseInt(dragTarget.style.left || 0)));
-    newTop  = e.clientY - cardRect.top  - (dragOffY - parseInt(dragTarget.style.top || 0) - (dragTarget.getBoundingClientRect().top - cardRect.top - parseInt(dragTarget.style.top || 0)));
-
-    // Cleanest drag
-    newLeft = e.clientX - cardRect.left - dragOffX;
-    newTop  = e.clientY - cardRect.top  - dragOffY;
-
-    dragTarget.style.left = Math.max(-20, Math.min(cw - 20, newLeft)) + 'px';
-    dragTarget.style.top  = Math.max(-20, Math.min(ch - 20, newTop)) + 'px';
-  }
-
-  function onPointerUp() {
-    if (dragTarget) dragTarget.classList.remove('dragging');
-    dragTarget = null;
-    window.removeEventListener('pointermove', onPointerMove);
-    window.removeEventListener('pointerup', onPointerUp);
-  }
-
-  card.addEventListener('pointerdown', onPointerDown);
+function adjustWordSize(delta) {
+  if (!selectedWordKey) return;
+  const globalSize = parseInt(document.getElementById('shayari-text').style.fontSize) || 23;
+  wordOverrides[selectedWordKey] = wordOverrides[selectedWordKey] || {};
+  const cur = wordOverrides[selectedWordKey].size || globalSize;
+  wordOverrides[selectedWordKey].size = Math.max(8, Math.min(80, cur + delta));
+  document.getElementById('wz-size-display').textContent = wordOverrides[selectedWordKey].size + 'px';
+  renderShayari();
+  repositionWordZoom();
 }
 
-/* drag offset fix — clean version */
-(function patchDrag() {
-  const card = document.getElementById('card');
-  let _dragTarget = null, _ox = 0, _oy = 0, _startL = 0, _startT = 0;
+/* ══════════════════════════════════════════
+   TEXT STYLE CONTROLS
+══════════════════════════════════════════ */
+function setFontSize(v) {
+  document.getElementById('font-size-val').textContent = v;
+  document.getElementById('shayari-text').style.fontSize = v + 'px';
+}
+function setLineHeight(v) {
+  document.getElementById('line-height-val').textContent = v;
+  document.getElementById('shayari-text').style.lineHeight = v;
+}
+function setLetterSpacing(v) {
+  document.getElementById('letter-spacing-val').textContent = v;
+  document.getElementById('shayari-text').style.letterSpacing = v + 'px';
+}
+function setWeight(w, btn) {
+  document.querySelectorAll('#weight-row .align-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('shayari-text').style.fontWeight = w;
+}
+function setAlign(a, btn) {
+  document.querySelectorAll('#align-row .align-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('shayari-text').style.textAlign = a;
+  renderShayari();
+}
+function setTextColor(c) {
+  document.getElementById('shayari-text').style.color = c;
+}
+function setTextShadow(type, btn) {
+  document.querySelectorAll('#shadow-row .align-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const map = {
+    none: 'none',
+    soft: '0 2px 8px rgba(0,0,0,0.4)',
+    hard: '2px 2px 0 rgba(0,0,0,0.7)',
+    glow: '0 0 12px rgba(255,255,255,0.8)',
+  };
+  document.getElementById('shayari-text').style.textShadow = map[type];
+}
 
-  card.addEventListener('pointerdown', e => {
-    const chip = document.getElementById('profile-chip');
-    const disp = document.getElementById('shayari-display');
-    const isChip = chip.contains(e.target) || e.target === chip;
-    const isDisp = (disp.contains(e.target) || e.target === disp) && !e.target.closest('.word-span') && !e.target.closest('#word-zoom-bar');
-    if (!isChip && !isDisp) return;
+/* ══════════════════════════════════════════
+   SEPARATOR
+══════════════════════════════════════════ */
+function setSepStyle(style, btn) {
+  sepStyle = style;
+  document.querySelectorAll('#sep-style-row .align-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('sep-options').style.display = style === 'none' ? 'none' : 'block';
+  renderShayari();
+}
+function setSepColor(c) { sepColor = c; renderShayari(); }
+function setSepOpacity(v) {
+  sepOpacity = +v;
+  document.getElementById('sep-opacity-val').textContent = v;
+  renderShayari();
+}
+function setSepWidth(v) {
+  sepWidth = +v;
+  document.getElementById('sep-width-val').textContent = v;
+  renderShayari();
+}
 
-    _dragTarget = isChip ? chip : disp;
+/* ══════════════════════════════════════════
+   BACKGROUND — SOLID / GRADIENT
+══════════════════════════════════════════ */
+const BG_PRESETS = [
+  'linear-gradient(160deg,#d2d2d2,#e2e2e2,#cacaca)',
+  'linear-gradient(135deg,#fff5f5,#ffe3e3)',
+  'linear-gradient(135deg,#f0f4ff,#dce8ff)',
+  'linear-gradient(135deg,#f0fff4,#d4f0dc)',
+  'linear-gradient(135deg,#fffbf0,#fce8b2)',
+  'linear-gradient(135deg,#1a1a2e,#16213e)',
+  'linear-gradient(135deg,#0d0d0d,#1a1a1a)',
+  'linear-gradient(135deg,#2d1b4e,#4a1942)',
+  'linear-gradient(135deg,#1a2e1a,#0d1f0d)',
+  'linear-gradient(135deg,#2e1a0d,#4a2800)',
+  'linear-gradient(160deg,#f8e1f4,#d4a5e0,#a06bb0)',
+  'linear-gradient(160deg,#ffd6a5,#ffb347,#e07000)',
+  'linear-gradient(160deg,#a8edea,#fed6e3)',
+  'linear-gradient(160deg,#43cea2,#185a9d)',
+  'linear-gradient(160deg,#f7971e,#ffd200)',
+];
 
-    if (_dragTarget === disp && !textPosManual) {
-      const cw = parseInt(card.style.width);
-      const ch = parseInt(card.style.height);
-      const dw = disp.offsetWidth;
-      const dh = disp.offsetHeight;
-      disp.style.top = Math.round((ch - dh)/2) + 'px';
-      disp.style.left = Math.round((cw - dw)/2) + 'px';
-      disp.style.transform = 'none';
-      disp.classList.add('manually-positioned');
-      textPosManual = true;
-    }
-
-    _startL = parseInt(_dragTarget.style.left) || 0;
-    _startT = parseInt(_dragTarget.style.top)  || 0;
-    _ox = e.clientX;
-    _oy = e.clientY;
-    _dragTarget.setPointerCapture(e.pointerId);
-    e.stopPropagation();
-  }, true);
-
-  document.addEventListener('pointermove', e => {
-    if (!_dragTarget) return;
-    const cw = parseInt(card.style.width);
-    const ch = parseInt(card.style.height);
-    const dx = e.clientX - _ox;
-    const dy = e.clientY - _oy;
-    _dragTarget.style.left = Math.max(-40, Math.min(cw - 20, _startL + dx)) + 'px';
-    _dragTarget.style.top  = Math.max(-20, Math.min(ch - 20, _startT + dy)) + 'px';
+function buildBgSwatches() {
+  const list = document.getElementById('bg-swatches');
+  BG_PRESETS.forEach((g, i) => {
+    const s = document.createElement('div');
+    s.className = 'bg-swatch' + (i === 0 ? ' active' : '');
+    s.style.background = g;
+    s.title = 'Preset ' + (i + 1);
+    s.onclick = () => {
+      document.querySelectorAll('.bg-swatch').forEach(x => x.classList.remove('active'));
+      s.classList.add('active');
+      document.getElementById('bg-layer').style.background = g;
+    };
+    list.appendChild(s);
   });
+}
 
-  document.addEventListener('pointerup', () => { _dragTarget = null; });
-})();
+function setBgSolid(c) {
+  document.querySelectorAll('.bg-swatch').forEach(x => x.classList.remove('active'));
+  document.getElementById('bg-layer').style.background = c;
+}
 
-/* ════════════════════════════════════
-   PROFILE CHIP CONTROLS
-════════════════════════════════════ */
-let chipVisible2 = true;
-let badgeVisible2 = true;
+function setOverlay(v) {
+  document.getElementById('overlay-val').textContent = v;
+  document.getElementById('overlay-layer').style.background = `rgba(0,0,0,${v/100})`;
+}
 
+/* ══════════════════════════════════════════
+   BACKGROUND IMAGE — DRAGGABLE
+══════════════════════════════════════════ */
+function loadBgImage(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const url = URL.createObjectURL(file);
+  const imgEl = document.getElementById('bg-img-el');
+
+  imgEl.onload = () => {
+    bgImgNatW   = imgEl.naturalWidth;
+    bgImgNatH   = imgEl.naturalHeight;
+    bgImgLoaded = true;
+
+    fitBgImg();
+
+    document.getElementById('bg-img-controls').classList.add('visible');
+    imgEl.style.display = 'block';
+
+    // Show edge shadow overlay by default
+    updateEdgeShadowOverlay();
+  };
+  imgEl.src = url;
+  input.value = '';
+}
+
+function applyBgImgTransform() {
+  const imgEl = document.getElementById('bg-img-el');
+  const scale = bgImgScale / 100;
+  imgEl.style.width  = (bgImgNatW * scale) + 'px';
+  imgEl.style.height = (bgImgNatH * scale) + 'px';
+  imgEl.style.left   = bgImgX + 'px';
+  imgEl.style.top    = bgImgY + 'px';
+}
+
+function setBgImgScale(v) {
+  bgImgScale = +v;
+  document.getElementById('bg-img-scale-val').textContent = v;
+  applyBgImgTransform();
+}
+
+function setBgOpacity(v) {
+  document.getElementById('bg-opacity-val').textContent = v;
+  document.getElementById('bg-img-el').style.opacity = v / 100;
+}
+
+function centerBgImg() {
+  if (!bgImgLoaded) return;
+  const card  = document.getElementById('card');
+  const cw    = parseInt(card.style.width);
+  const ch    = parseInt(card.style.height);
+  const scale = bgImgScale / 100;
+  bgImgX = (cw - bgImgNatW * scale) / 2;
+  bgImgY = (ch - bgImgNatH * scale) / 2;
+  applyBgImgTransform();
+}
+
+function fitBgImg() {
+  if (!bgImgLoaded) return;
+  const card   = document.getElementById('card');
+  const cw     = parseInt(card.style.width);
+  const ch     = parseInt(card.style.height);
+  const scaleW = cw / bgImgNatW;
+  const scaleH = ch / bgImgNatH;
+  bgImgScale   = Math.min(scaleW, scaleH) * 100;
+  document.getElementById('bg-img-scale-range').value = Math.min(400, Math.round(bgImgScale));
+  document.getElementById('bg-img-scale-val').textContent = Math.round(bgImgScale);
+  const scale  = bgImgScale / 100;
+  bgImgX = (cw - bgImgNatW * scale) / 2;
+  bgImgY = (ch - bgImgNatH * scale) / 2;
+  applyBgImgTransform();
+}
+
+function fillBgImg() {
+  if (!bgImgLoaded) return;
+  const card   = document.getElementById('card');
+  const cw     = parseInt(card.style.width);
+  const ch     = parseInt(card.style.height);
+  const scaleW = cw / bgImgNatW;
+  const scaleH = ch / bgImgNatH;
+  bgImgScale   = Math.max(scaleW, scaleH) * 100;
+  document.getElementById('bg-img-scale-range').value = Math.min(400, Math.round(bgImgScale));
+  document.getElementById('bg-img-scale-val').textContent = Math.round(bgImgScale);
+  const scale  = bgImgScale / 100;
+  bgImgX = (cw - bgImgNatW * scale) / 2;
+  bgImgY = (ch - bgImgNatH * scale) / 2;
+  applyBgImgTransform();
+}
+
+function removeBgImg() {
+  const imgEl = document.getElementById('bg-img-el');
+  imgEl.style.display = 'none';
+  imgEl.src = '';
+  bgImgLoaded = false;
+  document.getElementById('bg-img-controls').classList.remove('visible');
+  document.getElementById('bg-img-scale-range').value = 100;
+  document.getElementById('bg-img-scale-val').textContent = 100;
+  document.getElementById('bg-opacity-range').value = 100;
+  document.getElementById('bg-opacity-val').textContent = 100;
+  // Hide shadow overlay
+  document.getElementById('bg-img-shadow-overlay').classList.remove('visible');
+}
+
+/* ══════════════════════════════════════════
+   PREMIUM EDGE SHADOW — NEW
+══════════════════════════════════════════ */
+function updateEdgeShadowOverlay() {
+  const overlay = document.getElementById('bg-img-shadow-overlay');
+  if (bgImgLoaded && bgEdgeShadow) {
+    overlay.classList.add('visible');
+    applyShadowIntensity();
+  } else {
+    overlay.classList.remove('visible');
+  }
+}
+
+function toggleBgImgEdgeShadow() {
+  bgEdgeShadow = !bgEdgeShadow;
+  const tog = document.getElementById('bg-img-shadow-toggle');
+  tog.classList.toggle('on', bgEdgeShadow);
+  const wrap = document.getElementById('shadow-intensity-wrap');
+  wrap.classList.toggle('visible', bgEdgeShadow);
+  updateEdgeShadowOverlay();
+}
+
+function setShadowIntensity(v) {
+  shadowIntensity = +v;
+  document.getElementById('shadow-intensity-val').textContent = v;
+  applyShadowIntensity();
+}
+
+function applyShadowIntensity() {
+  const overlay = document.getElementById('bg-img-shadow-overlay');
+  const s = shadowIntensity / 100;
+  // Scale all rgba alpha values by the intensity
+  overlay.style.background = `
+    radial-gradient(ellipse 80% 50% at 50% 0%,   rgba(0,0,0,${(0.65*s).toFixed(2)}) 0%, transparent 70%),
+    radial-gradient(ellipse 80% 50% at 50% 100%, rgba(0,0,0,${(0.65*s).toFixed(2)}) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 80% at 0%   50%, rgba(0,0,0,${(0.55*s).toFixed(2)}) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 80% at 100% 50%, rgba(0,0,0,${(0.55*s).toFixed(2)}) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 60% at 0%   0%,  rgba(0,0,0,${(0.50*s).toFixed(2)}) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 60% at 100% 0%,  rgba(0,0,0,${(0.50*s).toFixed(2)}) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 60% at 0%   100%,rgba(0,0,0,${(0.50*s).toFixed(2)}) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 60% at 100% 100%,rgba(0,0,0,${(0.50*s).toFixed(2)}) 0%, transparent 65%)
+  `;
+}
+
+/* ══════════════════════════════════════════
+   PROFILE CHIP
+══════════════════════════════════════════ */
 function toggleChipVis() {
-  chipVisible2 = !chipVisible2;
-  document.getElementById('chip-vis-toggle').classList.toggle('on', chipVisible2);
-  document.getElementById('profile-chip').style.display = chipVisible2 ? 'flex' : 'none';
+  chipVisible = !chipVisible;
+  const t = document.getElementById('chip-vis-toggle');
+  t.classList.toggle('on', chipVisible);
+  document.getElementById('profile-chip').style.display = chipVisible ? 'flex' : 'none';
 }
-
 function toggleBadge() {
-  badgeVisible2 = !badgeVisible2;
-  document.getElementById('badge-toggle').classList.toggle('on', badgeVisible2);
-  document.getElementById('verified-badge').style.display = badgeVisible2 ? 'block' : 'none';
+  badgeVisible = !badgeVisible;
+  document.getElementById('badge-toggle').classList.toggle('on', badgeVisible);
+  document.getElementById('verified-badge').style.display = badgeVisible ? 'block' : 'none';
 }
-
-function setBadgeSize(sz, btn) {
+function setBadgeSize(px, btn) {
   document.querySelectorAll('.badge-size-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('verified-badge').style.width  = sz + 'px';
-  document.getElementById('verified-badge').style.height = sz + 'px';
+  document.getElementById('verified-badge').style.width  = px + 'px';
+  document.getElementById('verified-badge').style.height = px + 'px';
 }
-
-function setChipScale(val) {
-  document.getElementById('chip-scale-val').textContent = val;
-  document.getElementById('profile-chip').style.transform = `scale(${val/100})`;
+function setChipScale(v) {
+  document.getElementById('chip-scale-val').textContent = v;
+  document.getElementById('profile-chip').style.transform = `scale(${v/100})`;
   document.getElementById('profile-chip').style.transformOrigin = 'top left';
 }
-
 function setChipPos(pos) {
-  const card = document.getElementById('card');
-  const cw = parseInt(card.style.width);
-  const ch = parseInt(card.style.height);
   const chip = document.getElementById('profile-chip');
-  const cw2 = chip.offsetWidth || 160;
-  const ch2 = chip.offsetHeight || 56;
-  const pad = 20;
-
-  const map = {
-    'top-left':    { top: pad, left: pad },
-    'top-center':  { top: pad, left: (cw - cw2) / 2 },
-    'top-right':   { top: pad, left: cw - cw2 - pad },
-    'mid-left':    { top: (ch - ch2) / 2, left: pad },
-    'mid-center':  { top: (ch - ch2) / 2, left: (cw - cw2) / 2 },
-    'mid-right':   { top: (ch - ch2) / 2, left: cw - cw2 - pad },
-    'bot-left':    { top: ch - ch2 - pad, left: pad },
-    'bot-center':  { top: ch - ch2 - pad, left: (cw - cw2) / 2 },
-    'bot-right':   { top: ch - ch2 - pad, left: cw - cw2 - pad },
-  };
-
-  const p = map[pos];
-  if (p) {
-    chip.style.top  = Math.max(0, p.top)  + 'px';
-    chip.style.left = Math.max(0, p.left) + 'px';
-  }
-}
-
-/* ════════════════════════════════════
-   WATERMARK
-════════════════════════════════════ */
-let wmVisible2 = true;
-function toggleWmVis() {
-  wmVisible2 = !wmVisible2;
-  document.getElementById('wm-vis-toggle').classList.toggle('on', wmVisible2);
-  document.getElementById('watermark').style.display = wmVisible2 ? 'block' : 'none';
-}
-function setWmOpacity(val) {
-  document.getElementById('wm-opacity-val').textContent = val;
-  document.getElementById('watermark').style.color = `rgba(255,255,255,${val/100})`;
-}
-function setWmColor(val) {
-  document.getElementById('watermark').style.color = val;
-}
-function setWmSize(val) {
-  document.getElementById('wm-size-val').textContent = val;
-  document.getElementById('watermark').style.fontSize = val + 'px';
-}
-
-/* ════════════════════════════════════
-   PANEL TOGGLE
-════════════════════════════════════ */
-function togglePanel(id) {
-  document.getElementById(id).classList.toggle('open');
-}
-
-/* ════════════════════════════════════
-   DOWNLOAD
-════════════════════════════════════ */
-function downloadCard() {
-  const btn1 = document.getElementById('download-btn-card');
-  const btn2 = document.getElementById('download-btn-panel');
-  btn1.disabled = true; btn1.textContent = '⏳ Generating…';
-  btn2.disabled = true;
-
-  // Hide guides & UI chrome
   const card = document.getElementById('card');
-  const guideEls = card.querySelectorAll(
-    '#guide-h-line,#guide-v-line,#guide-third-h1,#guide-third-h2,' +
-    '#guide-third-v1,#guide-third-v2,.guide-corner,.guide-label,#center-badge'
-  );
-  guideEls.forEach(el => el.style.visibility = 'hidden');
-  const hint = document.getElementById('text-drag-hint');
-  if (hint) hint.style.display = 'none';
-  // Remove selected word highlight
-  document.querySelectorAll('.word-span.selected-word').forEach(w => w.classList.remove('selected-word'));
-  document.getElementById('word-zoom-bar').style.display = 'none';
+  const cw   = parseInt(card.style.width);
+  const ch   = parseInt(card.style.height);
+  const cw2  = chip.offsetWidth;
+  const ch2  = chip.offsetHeight;
+  const map  = {
+    'top-left':    [22,        22],
+    'top-center':  [(cw-cw2)/2, 22],
+    'top-right':   [cw-cw2-22, 22],
+    'mid-left':    [22,        (ch-ch2)/2],
+    'mid-center':  [(cw-cw2)/2, (ch-ch2)/2],
+    'mid-right':   [cw-cw2-22, (ch-ch2)/2],
+    'bot-left':    [22,        ch-ch2-22],
+    'bot-center':  [(cw-cw2)/2, ch-ch2-22],
+    'bot-right':   [cw-cw2-22, ch-ch2-22],
+  };
+  const [x, y] = map[pos];
+  chip.style.left = x + 'px';
+  chip.style.top  = y + 'px';
+}
 
+/* ══════════════════════════════════════════
+   WATERMARK
+══════════════════════════════════════════ */
+function toggleWmVis() {
+  wmVisible = !wmVisible;
+  document.getElementById('wm-vis-toggle').classList.toggle('on', wmVisible);
+  document.getElementById('watermark').style.display = wmVisible ? 'block' : 'none';
+}
+function setWmOpacity(v) {
+  document.getElementById('wm-opacity-val').textContent = v;
+  document.getElementById('watermark').style.opacity = v / 100;
+}
+function setWmColor(c) {
+  document.getElementById('watermark').style.color = c;
+}
+function setWmSize(v) {
+  document.getElementById('wm-size-val').textContent = v;
+  document.getElementById('watermark').style.fontSize = v + 'px';
+}
+
+/* ══════════════════════════════════════════
+   TEXT POSITION
+══════════════════════════════════════════ */
+function setTextPos(pos) {
+  const disp = document.getElementById('shayari-display');
+  const card = document.getElementById('card');
+  const cw   = parseInt(card.style.width);
+  const ch   = parseInt(card.style.height);
+  const dw   = disp.offsetWidth;
+  const dh   = disp.offsetHeight;
+  const pad  = 30;
+  const map  = {
+    'top-left':    [pad,          pad],
+    'top-center':  [(cw-dw)/2,    pad],
+    'top-right':   [cw-dw-pad,    pad],
+    'mid-left':    [pad,          (ch-dh)/2],
+    'mid-center':  [(cw-dw)/2,    (ch-dh)/2],
+    'mid-right':   [cw-dw-pad,    (ch-dh)/2],
+    'bot-left':    [pad,          ch-dh-pad],
+    'bot-center':  [(cw-dw)/2,    ch-dh-pad],
+    'bot-right':   [cw-dw-pad,    ch-dh-pad],
+  };
+  const [x, y] = map[pos];
+  disp.style.left  = x + 'px';
+  disp.style.top   = y + 'px';
+  disp.style.right = 'auto';
+}
+
+function setTextWidth(v) {
+  document.getElementById('text-width-val').textContent = v;
+  const disp = document.getElementById('shayari-display');
+  const card = document.getElementById('card');
+  const cw   = parseInt(card.style.width);
+  disp.style.width = (cw * v / 100) + 'px';
+}
+
+/* ══════════════════════════════════════════
+   DOWNLOAD
+══════════════════════════════════════════ */
+async function downloadCard() {
+  const btns = document.querySelectorAll('[id*="download-btn"]');
+  btns.forEach(b => { b.disabled = true; b.textContent = '⏳ Generating…'; });
+
+  const hint  = document.getElementById('text-drag-hint');
+  const guide = document.getElementById('guideline-45');
+  const wzBar = document.getElementById('word-zoom-bar');
+  const hintWas  = hint.style.display;
+  const guideWas = guide.style.display;
+  const wzWas    = wzBar.style.display;
+  hint.style.display  = 'none';
+  guide.style.display = 'none';
+  wzBar.style.display = 'none';
+
+  document.querySelectorAll('.selected-word').forEach(el => el.classList.remove('selected-word'));
+
+  const card  = document.getElementById('card');
   const scale = parseFloat(document.getElementById('export-scale-range').value) || 2;
-  const cw = parseInt(card.style.width);
-  const ch = parseInt(card.style.height);
 
-  html2canvas(card, {
-    width: cw, height: ch, scale: scale,
-    useCORS: true, allowTaint: true, backgroundColor: null,
-    logging: false,
-    ignoreElements: el =>
-      el.id === 'guide-h-line' || el.id === 'guide-v-line' ||
-      el.id === 'guide-third-h1' || el.id === 'guide-third-h2' ||
-      el.id === 'guide-third-v1' || el.id === 'guide-third-v2' ||
-      el.classList.contains('guide-corner') ||
-      el.classList.contains('guide-label') ||
-      el.id === 'center-badge' ||
-      el.id === 'text-drag-hint'
-  }).then(canvas => {
-    const a = document.createElement('a');
-    a.download = 'ghalibnama_shayari.png';
-    a.href = canvas.toDataURL('image/png');
-    a.click();
-  }).catch(err => {
+  try {
+    const canvas = await html2canvas(card, {
+      scale:           scale,
+      useCORS:         true,
+      allowTaint:      true,
+      backgroundColor: null,
+      logging:         false,
+    });
+
+    const link = document.createElement('a');
+    link.download = 'ghalib-nama-card.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  } catch(err) {
     alert('Download failed: ' + err.message);
-  }).finally(() => {
-    guideEls.forEach(el => el.style.visibility = '');
-    if (hint) hint.style.display = '';
-    btn1.disabled = false; btn1.textContent = '⬇ Download Image';
-    btn2.disabled = false; btn2.textContent = '⬇ Download Image';
-  });
+  }
+
+  hint.style.display  = hintWas;
+  guide.style.display = guideWas;
+  wzBar.style.display = wzWas;
+  if (selectedWordKey) {
+    const ws = document.querySelector(`.word-span[data-wk="${selectedWordKey}"]`);
+    if (ws) ws.classList.add('selected-word');
+  }
+
+  btns.forEach(b => { b.disabled = false; b.textContent = '⬇ Download Image'; });
 }
 </script>
 </body>
